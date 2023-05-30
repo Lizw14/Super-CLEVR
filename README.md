@@ -1,14 +1,5 @@
 # Super-CLEVR: A Virtual Benchmark to Diagnose Domain Robustness in Visual Reasoning
 
-
-This is the homepage for the paper: 
-
-[Super-CLEVR: A Virtual Benchmark to Diagnose Domain Robustness in Visual Reasoning](https://arxiv.org/abs/2212.00259) [CVPR 2023 highlight (top 2.5%)]
-
-[Zhuowan Li](https://lizw14.github.io/), [Xingrui Wang](https://xingruiwang.github.io), [Elias Stengel-Eskin](https://esteng.github.io), [Adam Kortylewski](https://gvrl.mpi-inf.mpg.de/), [Wufei Ma](https://wufeim.github.io), [Benjamin Van Durme](https://www.cs.jhu.edu/~vandurme/), [Alan Yuille](https://www.cs.jhu.edu/~ayuille/).
-
-------------
-
 [PDF](https://arxiv.org/pdf/2212.00259.pdf)
 [Slides](https://www.cs.jhu.edu/~zhuowan/zhuowan/SuperCLEVR/documents/Super-CLEVR.pdf)
 [Poster](https://www.cs.jhu.edu/~zhuowan/zhuowan/SuperCLEVR/documents/poster.pdf)
@@ -16,6 +7,14 @@ This is the homepage for the paper:
 <!-- (https://www.cs.jhu.edu/~zhuowan/zhuowan/SuperCLEVR/obj_part_list/all_objects.html) -->
 
 ------------
+
+This is the homepage for the [CVPR 2023 highlight (top 2.5%)] paper: 
+
+[Super-CLEVR: A Virtual Benchmark to Diagnose Domain Robustness in Visual Reasoning](https://arxiv.org/abs/2212.00259) 
+
+[Zhuowan Li](https://lizw14.github.io/), [Xingrui Wang](https://xingruiwang.github.io), [Elias Stengel-Eskin](https://esteng.github.io), [Adam Kortylewski](https://gvrl.mpi-inf.mpg.de/), [Wufei Ma](https://wufeim.github.io), [Benjamin Van Durme](https://www.cs.jhu.edu/~vandurme/), [Alan Yuille](https://www.cs.jhu.edu/~ayuille/).
+
+
 In this paper, we generate the Super-CLEVR dataset to systematically study the domain robustness of visual reasoning models on four factors: visual complexity, question redundancy, concept distribution, concept compositionality.
 
 ------------
@@ -52,9 +51,11 @@ The first 20k images and paired are used for training, the next 5k for validatio
 10 example generated images and scenes are in `output/images` and `output/scenes`. `output/superCLEVR_scenes_100mb.json` contains scene info for all (25k) generated images, which are then be used to generated questions.
 
 ### To generate questions
-run `sh scripts/generate_questions.sh`. This bash file include several different scripts for generate questions with/without parts.
+- run `sh scripts/generate_questions.sh`. This bash file include several different scripts for generate questions with/without parts.
 
-`output/superCLEVR_questions_5.json` and `outputsuperCLEVR_questions_part_5.json` are examples for questions generated using templates without and with parts respectively.
+- `output/superCLEVR_questions_5.json` and `outputsuperCLEVR_questions_part_5.json` are examples for questions generated using templates without and with parts respectively.
+
+- The argument `--remove_redundant` controls the level of redundancy in the generated questions.
 
 -----------
 ## Aknowledgements
