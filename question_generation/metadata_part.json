@@ -1,0 +1,365 @@
+{
+  "dataset": "CLEVR-v1.0",
+  "types": {
+    "Object": null,
+    "ObjectSet": null,
+    "Integer": null,
+    "Bool": null,
+    "Shape": {
+      "car": ["suv", "wagon", "minivan", "sedan", "truck", "addi"],
+      "bus": ["articulated", "regular", "double", "school"],
+      "motorbike": ["chopper", "dirtbike", "scooter", "cruiser"], 
+      "aeroplane": ["jet", "fighter", "biplane", "airliner"], 
+      "bicycle": ["road", "utility", "mountain", "tandem"]
+    },
+    "Color": [
+      "gray", "red", "blue", "green", "brown", "purple", "cyan", "yellow"
+    ],
+    "Relation": [
+      "left", "right", "behind", "front"
+    ],
+    "Size": [
+      "small", "large"
+    ],
+    "Material": [
+      "rubber", "metal"
+    ],
+    "Shapename":{
+      "suv": "suv",
+      "wagon": "wagon",
+      "minivan": "minivan",
+      "sedan": "sedan",
+      "truck": "truck",
+      "addi": "regular car",
+      "articulated": "articulated bus",
+      "regular": "regular bus",
+      "double": "double bus",
+      "school": "school bus",
+      "chopper": "chopper",
+      "dirtbike": "dirtbike",
+      "scooter": "scooter",
+      "cruiser": "cruiser",
+      "jet": "jet",
+      "fighter": "fighter",
+      "biplane": "biplane",
+      "airliner": "airliner",
+      "road": "road bike",
+      "utility": "utility bike",
+      "mountain": "mountain bike",
+      "tandem": "tandem bike"
+    },
+    "_Partname": {
+      "aeroplane": ["wing_left", "wing_right", "door_left_1", "door_right_1"],
+      "bicycle": ["wheel_front", "wheel_back", "handle_left", "handle_right", "saddle", "pedal_left", "pedal_right"],
+      "bus": ["wheel_front_left", "wheel_front_right", "wheel_back_left", "wheel_back_right", "door_front_left", "door_front_right", "door_mid_left", "door_mid_right", "door_back_left", "door_back_right"],
+      "car": ["back_left_door", "back_left_wheel", "back_right_door", "back_right_wheel", "front_left_door", "front_left_wheel", "front_right_door", "front_right_wheel", "trunk"],
+      "motorbike": ["wheel_front", "wheel_back"]
+    },
+    "Partname": "/home/zhuowan/zhuowan/SuperClevr/super-clevr/image_generation/data/save_models/part_dict.json"
+  },
+  "functions": [
+    {
+      "name": "part2object",
+      "inputs": ["PartSet"],
+      "output": "ObjectSet",
+      "terminal": false,
+      "template_only": false
+    },
+    {
+      "name": "object2part",
+      "inputs": ["ObjectSet"],
+      "output": "PartSet",
+      "terminal": false,
+      "template_only": false
+    },
+    {
+      "name": "scene",
+      "inputs": [],
+      "output": "ObjectSet",
+      "terminal": false
+    },
+    {
+      "name": "filter_color",
+      "inputs": ["ObjectSet"],
+      "side_inputs": ["Color"],
+      "output": "ObjectSet",
+      "terminal": false
+    },
+    {
+      "name": "partfilter_color",
+      "inputs": ["PartSet"],
+      "side_inputs": ["Color"],
+      "output": "PartSet",
+      "terminal": false
+    },
+    {
+      "name": "filter_shape",
+      "inputs": ["ObjectSet"],
+      "side_inputs": ["Shape"],
+      "output": "ObjectSet",
+      "terminal": false
+    },
+    {
+      "name": "partfilter_partname",
+      "inputs": ["PartSet"],
+      "side_inputs": ["PartName"],
+      "output": "PartSet",
+      "terminal": false
+    },
+    {
+      "name": "filter_size",
+      "inputs": ["ObjectSet"],
+      "side_inputs": ["Size"],
+      "output": "ObjectSet",
+      "terminal": false
+    },
+    {
+      "name": "partfilter_size",
+      "inputs": ["PartSet"],
+      "side_inputs": ["Size"],
+      "output": "PartSet",
+      "terminal": false
+    },
+    {
+      "name": "filter_material",
+      "inputs": ["ObjectSet"],
+      "side_inputs": ["Material"],
+      "output": "ObjectSet",
+      "terminal": false
+    },
+    {
+      "name": "partfilter_material",
+      "inputs": ["PartSet"],
+      "side_inputs": ["Material"],
+      "output": "PartSet",
+      "terminal": false
+    },
+    {
+      "name": "unique",
+      "inputs": ["ObjectSet"],
+      "output": "Object",
+      "terminal": false,
+      "properties": []
+    },
+    {
+      "name": "uniquepart",
+      "inputs": ["PartSet"],
+      "output": "Part",
+      "terminal": false,
+      "properties": []
+    },
+    {
+      "name": "relate",
+      "inputs": ["Object"],
+      "side_inputs": ["Relation"],
+      "output": "ObjectSet",
+      "terminal": false
+    },
+    {
+      "name": "union",
+      "inputs": ["ObjectSet", "ObjectSet"],
+      "output": "ObjectSet",
+      "terminal": false
+    },
+    {
+      "name": "intersect",
+      "inputs": ["ObjectSet", "ObjectSet"],
+      "output": "ObjectSet",
+      "terminal": false
+    },
+    {
+      "name": "count",
+      "inputs": ["ObjectSet"],
+      "output": "Integer",
+      "terminal": true
+    },
+    {
+      "name": "query_shape",
+      "inputs": ["Object"],
+      "output": "Shape",
+      "terminal": true
+    },
+    {
+      "name": "query_partname",
+      "inputs": ["Part"],
+      "output": "Partname",
+      "terminal": true
+    },
+    {
+      "name": "query_color",
+      "inputs": ["Object|Part"],
+      "output": "Color",
+      "terminal": true
+    },
+    {
+      "name": "query_size",
+      "inputs": ["Object|Part"],
+      "output": "Size",
+      "terminal": true
+    },
+    {
+      "name": "query_material",
+      "inputs": ["Object|Part"],
+      "output": "Material",
+      "terminal": true
+    },
+    {
+      "name": "exist",
+      "inputs": ["ObjectSet"],
+      "output": "Bool",
+      "terminal": true
+    },
+    {
+      "name": "equal_color",
+      "inputs": ["Color", "Color"],
+      "output": "Bool",
+      "terminal": true
+    },
+    {
+      "name": "equal_shape",
+      "inputs": ["Shape", "Shape"],
+      "output": "Bool",
+      "terminal": true
+    },
+    {
+      "name": "equal_integer",
+      "inputs": ["Integer", "Integer"],
+      "output": "Bool",
+      "terminal": true
+    },
+    {
+      "name": "less_than",
+      "inputs": ["Integer", "Integer"],
+      "output": "Bool",
+      "terminal": true
+    },
+    {
+      "name": "greater_than",
+      "inputs": ["Integer", "Integer"],
+      "output": "Bool",
+      "terminal": true
+    },
+    {
+      "name": "equal_size",
+      "inputs": ["Size", "Size"],
+      "output": "Bool",
+      "terminal": true
+    },
+    {
+      "name": "equal_material",
+      "inputs": ["Material", "Material"],
+      "output": "Bool",
+      "terminal": true
+    },
+    {
+      "name": "equal_object",
+      "inputs": ["Object", "Object"],
+      "output": "Bool",
+      "terminal": true
+    },
+    {
+      "name": "same_size",
+      "inputs": ["Object"],
+      "output": "ObjectSet",
+      "terminal": false
+    },
+    {
+      "name": "same_color",
+      "inputs": ["Object"],
+      "output": "ObjectSet",
+      "terminal": false
+    },
+    {
+      "name": "same_material",
+      "inputs": ["Object"],
+      "output": "ObjectSet",
+      "terminal": false
+    },
+    {
+      "name": "same_shape",
+      "inputs": ["Object"],
+      "output": "ObjectSet",
+      "terminal": false
+    },
+    {
+      "name": "filter",
+      "inputs": ["ObjectSet"],
+      "side_inputs": ["Size", "Color", "Material", "Shape"],
+      "output": "ObjectSet",
+      "terminal": false,
+      "template_only": true
+    },
+    {
+      "name": "partfilter",
+      "inputs": ["PartSet"],
+      "side_inputs": ["Size", "Color", "Material", "PartName"],
+      "output": "PartSet",
+      "terminal": false,
+      "template_only": true
+    },
+    {
+      "name": "filter_unique",
+      "inputs": ["ObjectSet"],
+      "side_inputs": ["Size", "Color", "Material", "Shape"],
+      "output": "Object",
+      "terminal": false,
+      "template_only": true
+    },
+    {
+      "name": "partfilter_unique",
+      "inputs": ["PartSet"],
+      "side_inputs": ["Size", "Color", "Material", "PartName"],
+      "output": "Part",
+      "terminal": false,
+      "template_only": true
+    },
+    {
+      "name": "filter_count",
+      "inputs": ["ObjectSet"],
+      "side_inputs": ["Size", "Color", "Material", "Shape"],
+      "output": "Integer",
+      "terminal": true,
+      "template_only": true
+    },
+    {
+      "name": "filter_exist",
+      "inputs": ["ObjectSet"],
+      "side_inputs": ["Size", "Color", "Material", "Shape"],
+      "output": "Bool",
+      "terminal": true,
+      "template_only": true
+    },
+    {
+      "name": "relate_filter",
+      "inputs": ["Object"],
+      "side_inputs": ["Relation", "Size", "Color", "Material", "Shape"],
+      "output": "ObjectSet",
+      "terminal": false,
+      "template_only": true
+    },
+    {
+      "name": "relate_filter_unique",
+      "inputs": ["Object"],
+      "side_inputs": ["Relation", "Size", "Color", "Material", "Shape"],
+      "output": "Object",
+      "terminal": false,
+      "template_only": true
+    },
+    {
+      "name": "relate_filter_count",
+      "inputs": ["Object"],
+      "side_inputs": ["Relation", "Size", "Color", "Material", "Shape"],
+      "output": "Integer",
+      "terminal": false,
+      "template_only": true
+    },
+    {
+      "name": "relate_filter_exist",
+      "inputs": ["Object"],
+      "side_inputs": ["Relation", "Size", "Color", "Material", "Shape"],
+      "output": "Bool",
+      "terminal": false,
+      "template_only": true
+    }
+  ]
+}

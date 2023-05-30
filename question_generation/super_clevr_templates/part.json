@@ -1,0 +1,971 @@
+[
+   {
+      "text": [
+        "What is the color of the <Z2> <C2> <M2> <P> of the <Z> <C> <M> <S>?"
+     ],
+      "nodes": [
+         {
+            "inputs": [],
+            "type": "scene"
+         },
+         {
+            "side_inputs": [
+               "<Z>",
+               "<C>",
+               "<M>",
+               "<S>"
+            ],
+            "inputs": [
+               0
+            ],
+            "type": "filter_unique"
+         },
+         {
+           "inputs": [
+              1
+           ],
+           "type": "object2part"
+         },
+         {
+            "side_inputs": [
+               "<Z2>",
+               "<C2>",
+               "<M2>",
+               "<P>"
+            ],
+            "inputs": [
+               2
+            ],
+            "type": "partfilter_unique"
+         },
+         {
+             "inputs": [
+                 3
+             ],
+             "type": "query_color"
+         }
+      ],
+      "params": [
+         {
+            "type": "Size",
+            "name": "<Z>"
+         },
+         {
+            "type": "Color",
+            "name": "<C>"
+         },
+         {
+            "type": "Material",
+            "name": "<M>"
+         },
+         {
+            "type": "Shape",
+            "name": "<S>"
+         },
+         {
+            "type": "Size",
+            "name": "<Z2>"
+         },
+         {
+            "type": "Color",
+            "name": "<C2>"
+         },
+         {
+            "type": "Material",
+            "name": "<M2>"
+         },
+         {
+            "type": "Partname",
+            "name": "<P>"
+         }
+      ],
+      "constraints": [
+        {
+           "params": [
+              "<C2>"
+           ],
+           "type": "NULL"
+        },
+        {
+           "params": [
+              "<Z2>"
+           ],
+           "type": "NULL"
+        }
+      ]
+   },
+   {
+     "text": [
+       "What is the name of the <Z2> <C2> <M2> <P> of the <Z> <C> <M> <S>?"
+    ],
+     "nodes": [
+        {
+           "inputs": [],
+           "type": "scene"
+        },
+        {
+           "side_inputs": [
+              "<Z>",
+              "<C>",
+              "<M>",
+              "<S>"
+           ],
+           "inputs": [
+              0
+           ],
+           "type": "filter_unique"
+        },
+        {
+          "inputs": [
+             1
+          ],
+          "type": "object2part"
+        },
+        {
+           "side_inputs": [
+              "<Z2>",
+              "<C2>",
+              "<M2>",
+              "<P>"
+           ],
+           "inputs": [
+              2
+           ],
+           "type": "partfilter_unique"
+        },
+        {
+            "inputs": [
+                3
+            ],
+            "type": "query_partname"
+        }
+     ],
+     "params": [
+        {
+           "type": "Size",
+           "name": "<Z>"
+        },
+        {
+           "type": "Color",
+           "name": "<C>"
+        },
+        {
+           "type": "Material",
+           "name": "<M>"
+        },
+        {
+           "type": "Shape",
+           "name": "<S>"
+        },
+        {
+           "type": "Size",
+           "name": "<Z2>"
+        },
+        {
+           "type": "Color",
+           "name": "<C2>"
+        },
+        {
+           "type": "Material",
+           "name": "<M2>"
+        },
+        {
+           "type": "Partname",
+           "name": "<P>"
+        }
+     ],
+     "constraints": [
+       {
+          "params": [
+             "<P>"
+          ],
+          "type": "NULL"
+       },
+       {
+          "params": [
+             "<Z2>"
+          ],
+          "type": "NULL"
+       }
+     ]
+  },
+  {
+     "text": [
+       "What is the material of the <Z2> <C2> <M2> <P> of the <Z> <C> <M> <S>?"
+    ],
+     "nodes": [
+        {
+           "inputs": [],
+           "type": "scene"
+        },
+        {
+           "side_inputs": [
+              "<Z>",
+              "<C>",
+              "<M>",
+              "<S>"
+           ],
+           "inputs": [
+              0
+           ],
+           "type": "filter_unique"
+        },
+        {
+          "inputs": [
+             1
+          ],
+          "type": "object2part"
+        },
+        {
+           "side_inputs": [
+              "<Z2>",
+              "<C2>",
+              "<M2>",
+              "<P>"
+           ],
+           "inputs": [
+              2
+           ],
+           "type": "partfilter_unique"
+        },
+        {
+            "inputs": [
+                3
+            ],
+            "type": "query_material"
+        }
+     ],
+     "params": [
+        {
+           "type": "Size",
+           "name": "<Z>"
+        },
+        {
+           "type": "Color",
+           "name": "<C>"
+        },
+        {
+           "type": "Material",
+           "name": "<M>"
+        },
+        {
+           "type": "Shape",
+           "name": "<S>"
+        },
+        {
+           "type": "Size",
+           "name": "<Z2>"
+        },
+        {
+           "type": "Color",
+           "name": "<C2>"
+        },
+        {
+           "type": "Material",
+           "name": "<M2>"
+        },
+        {
+           "type": "Partname",
+           "name": "<P>"
+        }
+     ],
+     "constraints": [
+       {
+          "params": [
+             "<M2>"
+          ],
+          "type": "NULL"
+       },
+       {
+          "params": [
+             "<Z2>"
+          ],
+          "type": "NULL"
+       }
+     ]
+  },
+  {
+     "text": [
+       "What is the color of the <Z> <C> <M> <S> that has a <Z2> <C2> <M2> <P>?"
+    ],
+     "nodes": [
+        {
+           "inputs": [],
+           "type": "scene"
+        },
+        {
+           "side_inputs": [
+              "<Z>",
+              "<C>",
+              "<M>",
+              "<S>"
+           ],
+           "inputs": [
+              0
+           ],
+           "type": "filter"
+        },
+        {
+           "inputs": [
+              1
+           ],
+           "type": "object2part"
+        },
+        {
+           "side_inputs": [
+              "<Z2>",
+              "<C2>",
+              "<M2>",
+              "<P>"
+           ],
+           "inputs": [
+              2
+           ],
+           "type": "partfilter_unique"
+        },
+        {
+           "inputs": [
+              3
+           ],
+           "type": "part2object"
+        },
+        {
+           "inputs": [
+              4
+           ],
+           "type": "unique"
+        },
+        {
+           "inputs": [
+              5
+           ],
+           "type": "query_color"
+        }
+        
+     ],
+     "params": [
+        {
+           "type": "Size",
+           "name": "<Z>"
+        },
+        {
+           "type": "Color",
+           "name": "<C>"
+        },
+        {
+           "type": "Material",
+           "name": "<M>"
+        },
+        {
+           "type": "Shape",
+           "name": "<S>"
+        },
+        {
+           "type": "Size",
+           "name": "<Z2>"
+        },
+        {
+           "type": "Color",
+           "name": "<C2>"
+        },
+        {
+           "type": "Material",
+           "name": "<M2>"
+        },
+        {
+           "type": "Partname",
+           "name": "<P>"
+        }
+     ],
+     "constraints": [
+       {
+          "params": [
+             "<C>"
+          ],
+          "type": "NULL"
+       },
+       {
+          "params": [
+             "<Z2>"
+          ],
+          "type": "NULL"
+       }
+     ]
+  },
+  {
+     "text": [
+       "What is the name of the <Z> <C> <M> <S> that has a <Z2> <C2> <M2> <P>?"
+    ],
+     "nodes": [
+        {
+           "inputs": [],
+           "type": "scene"
+        },
+        {
+           "side_inputs": [
+              "<Z>",
+              "<C>",
+              "<M>",
+              "<S>"
+           ],
+           "inputs": [
+              0
+           ],
+           "type": "filter"
+        },
+        {
+           "inputs": [
+              1
+           ],
+           "type": "object2part"
+        },
+        {
+           "side_inputs": [
+              "<Z2>",
+              "<C2>",
+              "<M2>",
+              "<P>"
+           ],
+           "inputs": [
+              2
+           ],
+           "type": "partfilter_unique"
+        },
+        {
+           "inputs": [
+              3
+           ],
+           "type": "part2object"
+        },
+        {
+           "inputs": [
+              4
+           ],
+           "type": "unique"
+        },
+        {
+           "inputs": [
+              5
+           ],
+           "type": "query_shape"
+        }
+        
+     ],
+     "params": [
+        {
+           "type": "Size",
+           "name": "<Z>"
+        },
+        {
+           "type": "Color",
+           "name": "<C>"
+        },
+        {
+           "type": "Material",
+           "name": "<M>"
+        },
+        {
+           "type": "Shape",
+           "name": "<S>"
+        },
+        {
+           "type": "Size",
+           "name": "<Z2>"
+        },
+        {
+           "type": "Color",
+           "name": "<C2>"
+        },
+        {
+           "type": "Material",
+           "name": "<M2>"
+        },
+        {
+           "type": "Partname",
+           "name": "<P>"
+        }
+     ],
+     "constraints": [
+       {
+          "params": [
+             "<S>"
+          ],
+          "type": "NULL"
+       },
+       {
+          "params": [
+             "<Z2>"
+          ],
+          "type": "NULL"
+       }
+     ]
+  },
+  {
+     "text": [
+       "What is the material of the <Z> <C> <M> <S> that has a <Z2> <C2> <M2> <P>?"
+    ],
+     "nodes": [
+        {
+           "inputs": [],
+           "type": "scene"
+        },
+        {
+           "side_inputs": [
+              "<Z>",
+              "<C>",
+              "<M>",
+              "<S>"
+           ],
+           "inputs": [
+              0
+           ],
+           "type": "filter"
+        },
+        {
+           "inputs": [
+              1
+           ],
+           "type": "object2part"
+        },
+        {
+           "side_inputs": [
+              "<Z2>",
+              "<C2>",
+              "<M2>",
+              "<P>"
+           ],
+           "inputs": [
+              2
+           ],
+           "type": "partfilter_unique"
+        },
+        {
+           "inputs": [
+              3
+           ],
+           "type": "part2object"
+        },
+        {
+           "inputs": [
+              4
+           ],
+           "type": "unique"
+        },
+        {
+           "inputs": [
+              5
+           ],
+           "type": "query_material"
+        }
+        
+     ],
+     "params": [
+        {
+           "type": "Size",
+           "name": "<Z>"
+        },
+        {
+           "type": "Color",
+           "name": "<C>"
+        },
+        {
+           "type": "Material",
+           "name": "<M>"
+        },
+        {
+           "type": "Shape",
+           "name": "<S>"
+        },
+        {
+           "type": "Size",
+           "name": "<Z2>"
+        },
+        {
+           "type": "Color",
+           "name": "<C2>"
+        },
+        {
+           "type": "Material",
+           "name": "<M2>"
+        },
+        {
+           "type": "Partname",
+           "name": "<P>"
+        }
+     ],
+     "constraints": [
+       {
+          "params": [
+             "<M>"
+          ],
+          "type": "NULL"
+       },
+       {
+          "params": [
+             "<Z2>"
+          ],
+          "type": "NULL"
+       }
+     ]
+  },
+  {
+     "text": [
+       "What is the color of the <Z> <C> <M> <P> that belongs to the same object as the <Z2> <C2> <M2> <P2>?"
+    ],
+     "nodes": [
+        {
+           "inputs": [],
+           "type": "scene"
+        },
+        {
+           "inputs": [
+              0
+           ],
+           "type": "object2part"
+        },
+        {
+           "side_inputs": [
+              "<Z2>",
+              "<C2>",
+              "<M2>",
+              "<P2>"
+           ],
+           "inputs": [
+              1
+           ],
+           "type": "partfilter_unique"
+        },
+        {
+           "inputs": [
+              2
+           ],
+           "type": "part2object"
+        },
+        {
+           "inputs": [
+              3
+           ],
+           "type": "object2part"
+        },
+        {
+           "side_inputs": [
+              "<Z>",
+              "<C>",
+              "<M>",
+              "<P>"
+           ],
+           "inputs": [
+              4
+           ],
+           "type": "partfilter_unique"
+        },
+        {
+           "inputs": [
+              5
+           ],
+           "type": "query_color"
+        }
+        
+     ],
+     "params": [
+        {
+           "type": "Size",
+           "name": "<Z>"
+        },
+        {
+           "type": "Color",
+           "name": "<C>"
+        },
+        {
+           "type": "Material",
+           "name": "<M>"
+        },
+        {
+           "type": "Partname",
+           "name": "<P>"
+        },
+        {
+           "type": "Size",
+           "name": "<Z2>"
+        },
+        {
+           "type": "Color",
+           "name": "<C2>"
+        },
+        {
+           "type": "Material",
+           "name": "<M2>"
+        },
+        {
+           "type": "Partname",
+           "name": "<P2>"
+        }
+     ],
+     "constraints": [
+       {
+          "params": [
+             "<C>"
+          ],
+          "type": "NULL"
+       },
+       {
+          "params": [
+             "<Z>"
+          ],
+          "type": "NULL"
+       },
+       {
+          "params": [
+             "<Z2>"
+          ],
+          "type": "NULL"
+       },
+       {
+        "params": [
+           2, 5
+        ],
+        "type": "OUT_NEQ"
+     }
+     ]
+  },
+  {
+     "text": [
+       "What is the name of the <Z> <C> <M> <P> that belongs to the same object as the <Z2> <C2> <M2> <P2>?"
+    ],
+     "nodes": [
+        {
+           "inputs": [],
+           "type": "scene"
+        },
+        {
+           "inputs": [
+              0
+           ],
+           "type": "object2part"
+        },
+        {
+           "side_inputs": [
+              "<Z2>",
+              "<C2>",
+              "<M2>",
+              "<P2>"
+           ],
+           "inputs": [
+              1
+           ],
+           "type": "partfilter_unique"
+        },
+        {
+           "inputs": [
+              2
+           ],
+           "type": "part2object"
+        },
+        {
+           "inputs": [
+              3
+           ],
+           "type": "object2part"
+        },
+        {
+           "side_inputs": [
+              "<Z>",
+              "<C>",
+              "<M>",
+              "<P>"
+           ],
+           "inputs": [
+              4
+           ],
+           "type": "partfilter_unique"
+        },
+        {
+           "inputs": [
+              5
+           ],
+           "type": "query_partname"
+        }
+        
+     ],
+     "params": [
+        {
+           "type": "Size",
+           "name": "<Z>"
+        },
+        {
+           "type": "Color",
+           "name": "<C>"
+        },
+        {
+           "type": "Material",
+           "name": "<M>"
+        },
+        {
+           "type": "Partname",
+           "name": "<P>"
+        },
+        {
+           "type": "Size",
+           "name": "<Z2>"
+        },
+        {
+           "type": "Color",
+           "name": "<C2>"
+        },
+        {
+           "type": "Material",
+           "name": "<M2>"
+        },
+        {
+           "type": "Partname",
+           "name": "<P2>"
+        }
+     ],
+     "constraints": [
+       {
+          "params": [
+             "<P>"
+          ],
+          "type": "NULL"
+       },
+       {
+          "params": [
+             "<Z>"
+          ],
+          "type": "NULL"
+       },
+       {
+          "params": [
+             "<Z2>"
+          ],
+          "type": "NULL"
+       },
+       {
+        "params": [
+           2, 5
+        ],
+        "type": "OUT_NEQ"
+     }
+     ]
+  },
+  {
+     "text": [
+       "What is the material of the <Z> <C> <M> <P> that belongs to the same object as the <Z2> <C2> <M2> <P2>?"
+    ],
+     "nodes": [
+        {
+           "inputs": [],
+           "type": "scene"
+        },
+        {
+           "inputs": [
+              0
+           ],
+           "type": "object2part"
+        },
+        {
+           "side_inputs": [
+              "<Z2>",
+              "<C2>",
+              "<M2>",
+              "<P2>"
+           ],
+           "inputs": [
+              1
+           ],
+           "type": "partfilter_unique"
+        },
+        {
+           "inputs": [
+              2
+           ],
+           "type": "part2object"
+        },
+        {
+           "inputs": [
+              3
+           ],
+           "type": "object2part"
+        },
+        {
+           "side_inputs": [
+              "<Z>",
+              "<C>",
+              "<M>",
+              "<P>"
+           ],
+           "inputs": [
+              4
+           ],
+           "type": "partfilter_unique"
+        },
+        {
+           "inputs": [
+              5
+           ],
+           "type": "query_material"
+        }
+        
+     ],
+     "params": [
+        {
+           "type": "Size",
+           "name": "<Z>"
+        },
+        {
+           "type": "Color",
+           "name": "<C>"
+        },
+        {
+           "type": "Material",
+           "name": "<M>"
+        },
+        {
+           "type": "Partname",
+           "name": "<P>"
+        },
+        {
+           "type": "Size",
+           "name": "<Z2>"
+        },
+        {
+           "type": "Color",
+           "name": "<C2>"
+        },
+        {
+           "type": "Material",
+           "name": "<M2>"
+        },
+        {
+           "type": "Partname",
+           "name": "<P2>"
+        }
+     ],
+     "constraints": [
+       {
+          "params": [
+             "<M>"
+          ],
+          "type": "NULL"
+       },
+       {
+          "params": [
+             "<Z>"
+          ],
+          "type": "NULL"
+       },
+       {
+          "params": [
+             "<Z2>"
+          ],
+          "type": "NULL"
+       },
+       {
+        "params": [
+           2, 5
+        ],
+        "type": "OUT_NEQ"
+     }
+     ]
+  }
+]
