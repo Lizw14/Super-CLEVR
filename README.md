@@ -19,7 +19,7 @@ In this paper, we generate the Super-CLEVR dataset to systematically study the d
 
 ------------
 ## Dataset
-Super-CLEVR contains 30k images of vehicles (from [the UDA-Part Dataset](https://qliu24.github.io/udapart/)) randomly placed in the scenes, with 10 question-answer pairs for each image. The vehicles have part annotations and so the objects in the images can have distinct part attributes. 
+Super-CLEVR contains 30k images of vehicles (from [UDA-Part](https://qliu24.github.io/udapart/)) randomly placed in the scenes, with 10 question-answer pairs for each image. The vehicles have part annotations and so the objects in the images can have distinct part attributes. 
 
 Here [[link]](https://www.cs.jhu.edu/~zhuowan/zhuowan/SuperCLEVR/obj_part_list/all_objects.html) is the list of objects and parts in Super-CLEVR scenes. 
 
@@ -33,7 +33,7 @@ The first 20k images and paired are used for training, the next 5k for validatio
 |--------------------------|---|
 | images                   |[images.zip](https://www.cs.jhu.edu/~zhuowan/zhuowan/SuperCLEVR/to_be_released/images.zip)|
 | scenes                   |[superCLEVR_scenes.json](https://www.cs.jhu.edu/~zhuowan/zhuowan/SuperCLEVR/to_be_released/superCLEVR_scenes.json)|
-| questions                |[superCLEVR_questions_30k.json](https://www.cs.jhu.edu/~zhuowan/zhuowan/SuperCLEVR/to_be_released/superCLEVR_questions_30k.json) (to be updated)|
+| questions                |[superCLEVR_questions_30k.json](https://www.cs.jhu.edu/~zhuowan/zhuowan/SuperCLEVR/to_be_released/superCLEVR_questions_30k.json)|
 | questions (- redundancy) |[superCLEVR_questions_30k_NoRedundant.json](https://www.cs.jhu.edu/~zhuowan/zhuowan/SuperCLEVR/to_be_released/superCLEVR_questions_30k_NoRedundant.json)|
 | questions (+ redundancy)  |[superCLEVR_questions_30k_AllRedundant.json](https://www.cs.jhu.edu/~zhuowan/zhuowan/SuperCLEVR/to_be_released/superCLEVR_questions_30k_AllRedundant.json)|
 
@@ -59,7 +59,7 @@ The first 20k images and paired are used for training, the next 5k for validatio
 
 -----------
 ## Aknowledgements
-This repo is highly motivated by [CLEVR](https://github.com/facebookresearch/clevr-dataset-gen) and [CaliCO](https://github.com/Lizw14/CaliCO).
+This repo is highly motivated by [CLEVR](https://github.com/facebookresearch/clevr-dataset-gen) and [render-3d-segmentation](https://github.com/qliu24/render-3d-segmentation).
 
 --------------
 ## Citation
