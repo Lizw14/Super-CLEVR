@@ -55,7 +55,7 @@
       "car": ["back_left_door", "back_left_wheel", "back_right_door", "back_right_wheel", "front_left_door", "front_left_wheel", "front_right_door", "front_right_wheel", "trunk"],
       "motorbike": ["wheel_front", "wheel_back"]
     },
-    "Partname": "/home/zhuowan/zhuowan/SuperClevr/super-clevr/image_generation/data/save_models/part_dict.json"
+    "Partname": "../image_generation/data/save_models_1/part_dict.json"
   },
   "functions": [
     {
@@ -180,26 +180,44 @@
       "terminal": true
     },
     {
-      "name": "query_partname",
-      "inputs": ["Part"],
-      "output": "Partname",
-      "terminal": true
-    },
-    {
       "name": "query_color",
-      "inputs": ["Object|Part"],
+      "inputs": ["Object"],
       "output": "Color",
       "terminal": true
     },
     {
       "name": "query_size",
-      "inputs": ["Object|Part"],
+      "inputs": ["Object"],
       "output": "Size",
       "terminal": true
     },
     {
       "name": "query_material",
-      "inputs": ["Object|Part"],
+      "inputs": ["Object"],
+      "output": "Material",
+      "terminal": true
+    },
+    {
+      "name": "partquery_partname",
+      "inputs": ["Part"],
+      "output": "Partname",
+      "terminal": true
+    },
+    {
+      "name": "partquery_color",
+      "inputs": ["Part"],
+      "output": "Color",
+      "terminal": true
+    },
+    {
+      "name": "partquery_size",
+      "inputs": ["Part"],
+      "output": "Size",
+      "terminal": true
+    },
+    {
+      "name": "partquery_material",
+      "inputs": ["Part"],
       "output": "Material",
       "terminal": true
     },

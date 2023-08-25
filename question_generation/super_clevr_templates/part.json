@@ -42,7 +42,7 @@
              "inputs": [
                  3
              ],
-             "type": "query_color"
+             "type": "partquery_color"
          }
       ],
       "params": [
@@ -137,7 +137,7 @@
             "inputs": [
                 3
             ],
-            "type": "query_partname"
+            "type": "partquery_partname"
         }
      ],
      "params": [
@@ -232,7 +232,7 @@
             "inputs": [
                 3
             ],
-            "type": "query_material"
+            "type": "partquery_material"
         }
      ],
      "params": [
@@ -663,7 +663,7 @@
            "inputs": [
               5
            ],
-           "type": "query_color"
+           "type": "partquery_color"
         }
         
      ],
@@ -783,7 +783,7 @@
            "inputs": [
               5
            ],
-           "type": "query_partname"
+           "type": "partquery_partname"
         }
         
      ],
@@ -903,7 +903,7 @@
            "inputs": [
               5
            ],
-           "type": "query_material"
+           "type": "partquery_material"
         }
         
      ],
