@@ -1,0 +1,537 @@
+{
+  "directions": {
+    "right": [
+      0.6563112735748291,
+      0.7544902563095093,
+      -0.0
+    ],
+    "behind": [
+      -0.754490315914154,
+      0.6563112735748291,
+      0.0
+    ],
+    "front": [
+      0.754490315914154,
+      -0.6563112735748291,
+      -0.0
+    ],
+    "below": [
+      -0.0,
+      -0.0,
+      -1.0
+    ],
+    "left": [
+      -0.6563112735748291,
+      -0.7544902563095093,
+      0.0
+    ],
+    "above": [
+      0.0,
+      0.0,
+      1.0
+    ]
+  },
+  "objects": [
+    {
+      "rotation": 27.57093270565771,
+      "size": "large",
+      "pixel_coords": [
+        [
+          153,
+          207,
+          11.209053993225098
+        ],
+        [
+          640,
+          480
+        ]
+      ],
+      "color": "red",
+      "3d_coords": [
+        -1.7201117277145386,
+        -2.04640531539917,
+        0.6627705097198486
+      ],
+      "material": "rubber",
+      "shape": "tandem",
+      "parts": {
+        "wheel_back": {
+          "size": "large",
+          "color": "purple",
+          "material": "rubber"
+        },
+        "wheel_front": {
+          "size": "large",
+          "color": "gray",
+          "material": "rubber"
+        },
+        "fender_front": {
+          "size": "large",
+          "color": "gray",
+          "material": "metal"
+        }
+      }
+    },
+    {
+      "rotation": 314.61173653923146,
+      "size": "large",
+      "pixel_coords": [
+        [
+          398,
+          314,
+          9.257518768310547
+        ],
+        [
+          640,
+          480
+        ]
+      ],
+      "color": "red",
+      "3d_coords": [
+        2.5794339179992676,
+        -0.9757808446884155,
+        0.26744914054870605
+      ],
+      "material": "metal",
+      "shape": "regular",
+      "parts": {
+        "mirror_right": {
+          "size": "large",
+          "color": "brown",
+          "material": "rubber"
+        },
+        "door_front_right": {
+          "size": "large",
+          "color": "brown",
+          "material": "metal"
+        },
+        "bumper_front": {
+          "size": "large",
+          "color": "purple",
+          "material": "metal"
+        }
+      }
+    },
+    {
+      "rotation": 205.00715952133646,
+      "size": "large",
+      "pixel_coords": [
+        [
+          400,
+          167,
+          13.356522560119629
+        ],
+        [
+          640,
+          480
+        ]
+      ],
+      "color": "green",
+      "3d_coords": [
+        -0.5582036375999451,
+        2.6022191047668457,
+        0.4126991629600525
+      ],
+      "material": "rubber",
+      "shape": "truck",
+      "parts": {
+        "hood": {
+          "size": "large",
+          "color": "purple",
+          "material": "rubber"
+        },
+        "right_head_light": {
+          "size": "large",
+          "color": "red",
+          "material": "rubber"
+        },
+        "front_left_door": {
+          "size": "large",
+          "color": "red",
+          "material": "rubber"
+        }
+      }
+    },
+    {
+      "rotation": 121.47492609706387,
+      "size": "large",
+      "pixel_coords": [
+        [
+          497,
+          190,
+          11.373069763183594
+        ],
+        [
+          640,
+          480
+        ]
+      ],
+      "color": "cyan",
+      "3d_coords": [
+        1.8370256423950195,
+        2.216090679168701,
+        0.8438534736633301
+      ],
+      "material": "rubber",
+      "shape": "mountain",
+      "parts": {
+        "handle_right": {
+          "size": "large",
+          "color": "gray",
+          "material": "rubber"
+        },
+        "pedal_right": {
+          "size": "large",
+          "color": "red",
+          "material": "rubber"
+        },
+        "wheel_front": {
+          "size": "large",
+          "color": "red",
+          "material": "metal"
+        }
+      }
+    },
+    {
+      "rotation": 287.24265066609365,
+      "size": "small",
+      "pixel_coords": [
+        [
+          273,
+          223,
+          11.307950019836426
+        ],
+        [
+          640,
+          480
+        ]
+      ],
+      "color": "blue",
+      "3d_coords": [
+        -0.3966531455516815,
+        -0.6640022993087769,
+        0.3934241235256195
+      ],
+      "material": "metal",
+      "shape": "cruiser",
+      "parts": {
+        "exhaust_right_s": {
+          "size": "small",
+          "color": "gray",
+          "material": "rubber"
+        },
+        "mirror_right": {
+          "size": "small",
+          "color": "green",
+          "material": "metal"
+        },
+        "wheel_front": {
+          "size": "small",
+          "color": "gray",
+          "material": "rubber"
+        }
+      }
+    },
+    {
+      "rotation": 359.7074293961241,
+      "size": "large",
+      "pixel_coords": [
+        [
+          238,
+          170,
+          13.584457397460938
+        ],
+        [
+          640,
+          480
+        ]
+      ],
+      "color": "green",
+      "3d_coords": [
+        -2.806027889251709,
+        0.43999844789505005,
+        0.26908695697784424
+      ],
+      "material": "metal",
+      "shape": "jet",
+      "parts": {
+        "wing_right": {
+          "size": "large",
+          "color": "blue",
+          "material": "rubber"
+        },
+        "fin": {
+          "size": "large",
+          "color": "cyan",
+          "material": "metal"
+        },
+        "tailplane_left": {
+          "size": "large",
+          "color": "yellow",
+          "material": "rubber"
+        }
+      }
+    },
+    {
+      "rotation": 321.1020056273792,
+      "size": "small",
+      "pixel_coords": [
+        [
+          346,
+          377,
+          8.19955062866211
+        ],
+        [
+          640,
+          480
+        ]
+      ],
+      "color": "red",
+      "3d_coords": [
+        2.9885752201080322,
+        -2.3464062213897705,
+        0.21224528551101685
+      ],
+      "material": "metal",
+      "shape": "truck",
+      "parts": {
+        "back_right_wheel": {
+          "size": "small",
+          "color": "green",
+          "material": "rubber"
+        },
+        "trunk": {
+          "size": "small",
+          "color": "gray",
+          "material": "metal"
+        },
+        "front_right_wheel": {
+          "size": "small",
+          "color": "gray",
+          "material": "metal"
+        }
+      }
+    },
+    {
+      "rotation": 118.84431646176618,
+      "size": "small",
+      "pixel_coords": [
+        [
+          132,
+          260,
+          10.708800315856934
+        ],
+        [
+          640,
+          480
+        ]
+      ],
+      "color": "purple",
+      "3d_coords": [
+        -1.247182846069336,
+        -2.7588558197021484,
+        0.1742490828037262
+      ],
+      "material": "metal",
+      "shape": "wagon",
+      "parts": {
+        "left_tail_light": {
+          "size": "small",
+          "color": "yellow",
+          "material": "metal"
+        },
+        "front_bumper": {
+          "size": "small",
+          "color": "cyan",
+          "material": "rubber"
+        },
+        "back_bumper": {
+          "size": "small",
+          "color": "cyan",
+          "material": "metal"
+        }
+      }
+    }
+  ],
+  "relationships": {
+    "right": [
+      [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3
+      ],
+      [],
+      [
+        1,
+        2,
+        3,
+        6
+      ],
+      [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      [
+        1,
+        2,
+        3
+      ],
+      [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    ],
+    "behind": [
+      [
+        2,
+        5
+      ],
+      [
+        0,
+        2,
+        3,
+        4,
+        5,
+        7
+      ],
+      [
+        5
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        2,
+        3,
+        5
+      ],
+      [],
+      [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7
+      ],
+      [
+        0,
+        2,
+        3,
+        4,
+        5
+      ]
+    ],
+    "left": [
+      [
+        7
+      ],
+      [
+        0,
+        4,
+        5,
+        6,
+        7
+      ],
+      [
+        0,
+        1,
+        4,
+        5,
+        6,
+        7
+      ],
+      [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7
+      ],
+      [
+        0,
+        5,
+        7
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        0,
+        4,
+        5,
+        7
+      ],
+      []
+    ],
+    "front": [
+      [
+        1,
+        6,
+        7
+      ],
+      [
+        6
+      ],
+      [
+        0,
+        1,
+        3,
+        4,
+        6,
+        7
+      ],
+      [
+        1,
+        4,
+        6,
+        7
+      ],
+      [
+        1,
+        6,
+        7
+      ],
+      [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7
+      ],
+      [],
+      [
+        1,
+        6
+      ]
+    ]
+  },
+  "image_filename": "superCLEVR_new_000004.png",
+  "image_index": 4,
+  "split": "new"
+}

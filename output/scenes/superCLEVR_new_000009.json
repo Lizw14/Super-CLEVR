@@ -1,0 +1,198 @@
+{
+  "directions": {
+    "right": [
+      0.6563112735748291,
+      0.7544902563095093,
+      -0.0
+    ],
+    "behind": [
+      -0.754490315914154,
+      0.6563112735748291,
+      0.0
+    ],
+    "front": [
+      0.754490315914154,
+      -0.6563112735748291,
+      -0.0
+    ],
+    "below": [
+      -0.0,
+      -0.0,
+      -1.0
+    ],
+    "left": [
+      -0.6563112735748291,
+      -0.7544902563095093,
+      0.0
+    ],
+    "above": [
+      0.0,
+      0.0,
+      1.0
+    ]
+  },
+  "objects": [
+    {
+      "rotation": 70.10482751998657,
+      "size": "large",
+      "pixel_coords": [
+        [
+          525,
+          181,
+          11.186870574951172
+        ],
+        [
+          640,
+          480
+        ]
+      ],
+      "color": "purple",
+      "3d_coords": [
+        1.652209997177124,
+        2.8728830814361572,
+        0.7649913430213928
+      ],
+      "material": "rubber",
+      "shape": "cruiser",
+      "parts": {
+        "license_plate": {
+          "size": "large",
+          "color": "red",
+          "material": "rubber"
+        },
+        "mirror_left": {
+          "size": "large",
+          "color": "yellow",
+          "material": "rubber"
+        },
+        "drive_chain": {
+          "size": "large",
+          "color": "cyan",
+          "material": "metal"
+        }
+      }
+    },
+    {
+      "rotation": 166.20325632458386,
+      "size": "large",
+      "pixel_coords": [
+        [
+          281,
+          126,
+          12.939756393432617
+        ],
+        [
+          640,
+          480
+        ]
+      ],
+      "color": "blue",
+      "3d_coords": [
+        -2.5147271156311035,
+        1.1230316162109375,
+        0.919418454170227
+      ],
+      "material": "metal",
+      "shape": "utility",
+      "parts": {
+        "wheel_back": {
+          "size": "large",
+          "color": "cyan",
+          "material": "rubber"
+        },
+        "handle_left": {
+          "size": "large",
+          "color": "yellow",
+          "material": "rubber"
+        },
+        "drive_chain": {
+          "size": "large",
+          "color": "red",
+          "material": "rubber"
+        }
+      }
+    },
+    {
+      "rotation": 25.464259648144978,
+      "size": "small",
+      "pixel_coords": [
+        [
+          133,
+          204,
+          11.590559005737305
+        ],
+        [
+          640,
+          480
+        ]
+      ],
+      "color": "brown",
+      "3d_coords": [
+        -2.5320918560028076,
+        -1.9256843328475952,
+        0.2732255756855011
+      ],
+      "material": "rubber",
+      "shape": "biplane",
+      "parts": {
+        "wing_right": {
+          "size": "small",
+          "color": "blue",
+          "material": "rubber"
+        },
+        "fin": {
+          "size": "small",
+          "color": "yellow",
+          "material": "rubber"
+        },
+        "tailplane_right": {
+          "size": "small",
+          "color": "gray",
+          "material": "metal"
+        }
+      }
+    }
+  ],
+  "relationships": {
+    "right": [
+      [],
+      [
+        0
+      ],
+      [
+        0,
+        1
+      ]
+    ],
+    "behind": [
+      [
+        1
+      ],
+      [],
+      [
+        1
+      ]
+    ],
+    "left": [
+      [
+        1,
+        2
+      ],
+      [
+        2
+      ],
+      []
+    ],
+    "front": [
+      [],
+      [
+        0,
+        2
+      ],
+      []
+    ]
+  },
+  "image_filename": "superCLEVR_new_000009.png",
+  "image_index": 9,
+  "split": "new"
+}

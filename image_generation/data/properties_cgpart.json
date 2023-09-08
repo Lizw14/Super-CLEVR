@@ -27,6 +27,7 @@
     "rubber": "Rubber",
     "metal": "MyMetal"
   },
+  "textures": ["None", "vstripped", "checkered", "stripped", "dotted"],
   "colors": {
     "gray": [87, 87, 87],
     "red": [173, 35, 35],

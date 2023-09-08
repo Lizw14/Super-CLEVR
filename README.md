@@ -48,7 +48,7 @@ The first 20k images and paired are used for training, the next 5k for validatio
 4. Next run `sh scripts/render_images.sh` to render images with GPUs. 
 5. After the images and corresponding scene files are generated, you can use `scripts/merge_scenes.py` to merge the scene files into one json file (as `output/superCLEVR_scenes.json`).
 
-10 example generated images and scenes are in `output/images` and `output/scenes`. `output/superCLEVR_scenes_100mb.json` contains scene info for all (25k) generated images, which are then be used to generated questions.
+10 example generated images and scenes are in `output/images` and `output/scenes`.
 
 ### To generate questions
 - run `sh scripts/generate_questions.sh`. This bash file include several different scripts for generate questions with/without parts.

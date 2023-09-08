@@ -6,6 +6,7 @@
 # of patent rights can be found in the PATENTS file in the same directory.
 
 import sys, random, os
+from tokenize import group
 import bpy, bpy_extras, bmesh
 import json
 import pdb
@@ -13,6 +14,7 @@ import math
 import re
 from material_cycles_converter import AutoNode
 from mathutils import Vector
+import numpy as np
 
 
 """
@@ -174,7 +176,7 @@ def add_object(object_dir, name, obj_pth, scale, loc, theta=0):
 
 # modify the color of current_obj. mat_list: list of mats, with choice of material
 # modified from the original add_material function
-def modify_color(current_obj, material_name, mat_list, color):
+def modify_color(current_obj, material_name, mat_list, color, texture, mat_freq):
     # AutoNode(True) # convert the materials of current obj
     # When different objects has same mat names, the names will be automatically renamed to 'XXX.002', 'XXX.003' etc
     for i, mat in enumerate(current_obj.data.materials):
@@ -191,45 +193,71 @@ def modify_color(current_obj, material_name, mat_list, color):
         if mat.node_tree.nodes[1].name == 'Transparent BSDF':
             mat.node_tree.nodes[1].inputs[0].default_value[0:3] = color[0:3]
         else:
-        
-            """
-            Create a new material and assign it to the active object. "name" should be the
-            name of a material that has been previously loaded using load_materials.
-            """
-            # Create a new material; it is not attached to anything and
-            # it will be called "Material"
-            bpy.ops.material.new()
-
-            # Get a reference to the material we just created and rename it;
-            # then the next time we make a new material it will still be called
-            # "Material" and we will still be able to look it up by name
-            new_mat = bpy.data.materials['Material']
-            new_mat.name = mat_name+'.'+material_name
-
-            # Attach the new material to the active object
-            # Make sure it doesn't already have materials
+            new_mat = add_new_mat(mat_name, material_name, color, texture, mat_freq)
             current_obj.data.materials[i] = new_mat
 
-            # Find the output node of the new material
-            output_node = new_mat.node_tree.nodes['Material Output']
+def modify_mat(mat, color, mat_freq):
+    group_node = mat.node_tree.nodes['Group']
+    group_node.inputs['Color'].default_value = color
+    if 'texture' in mat.node_tree.nodes:
+        texture_node = mat.node_tree.nodes['texture']
+        texture_node.inputs['Color'].default_value = color
+        if 'Color2' in texture_node.inputs:
+            texture_node.inputs['Color2'].default_value = [c/2 for c in color[:3]] + [1.0]
+        if "Checker Texture" in texture_node.node_tree.nodes:
+            texture_node.node_tree.nodes["Checker Texture"].inputs[3].default_value = mat_freq
 
-            # Add a new GroupNode to the node tree of the active material,
-            # and copy the node tree from the preloaded node group to the
-            # new group node. This copying seems to happen by-value, so
-            # we can create multiple materials of the same type without them
-            # clobbering each other
-            group_node = new_mat.node_tree.nodes.new('ShaderNodeGroup')
-            group_node.node_tree = bpy.data.node_groups[material_name]
 
-            # Find and set the "Color" input of the new group node
-            group_node.inputs['Color'].default_value = color
+def add_new_mat(mat_name, material_name, color, texture=None, mat_freq=20):
+    """
+    Create a new material and assign it to the active object. "name" should be the
+    name of a material that has been previously loaded using load_materials.
+    """
+    # Create a new material; it is not attached to anything and
+    # it will be called "Material"
+    bpy.ops.material.new()
 
-            # Wire the output of the new group node to the input of
-            # the MaterialOutput node
-            new_mat.node_tree.links.new(
-                    group_node.outputs['Shader'],
-                    output_node.inputs['Surface'], 
-            )
+    # Get a reference to the material we just created and rename it;
+    # then the next time we make a new material it will still be called
+    # "Material" and we will still be able to look it up by name
+    new_mat = bpy.data.materials['Material']
+    new_mat.name = mat_name+'.'+str(texture)+'_'+material_name
+
+    # Find the output node of the new material
+    output_node = new_mat.node_tree.nodes['Material Output']
+
+    # Add a new GroupNode to the node tree of the active material,
+    # and copy the node tree from the preloaded node group to the
+    # new group node. This copying seems to happen by-value, so
+    # we can create multiple materials of the same type without them
+    # clobbering each other
+    group_node = new_mat.node_tree.nodes.new('ShaderNodeGroup')
+    group_node.node_tree = bpy.data.node_groups[material_name]
+    
+    
+    # # texture node
+    if texture is not None:
+        texture_node = new_mat.node_tree.nodes.new('ShaderNodeGroup')
+        texture_node.name = 'texture'
+        # texture_name = random.choice(['stripped', 'checkered'])
+        texture_name = texture
+        texture_node.node_tree = bpy.data.node_groups[texture_name]
+        new_mat.node_tree.links.new(
+                group_node.outputs['Shader'], 
+                texture_node.inputs['Shader'], 
+        )          
+    else:
+        texture_node = group_node
+        
+    modify_mat(new_mat, color, mat_freq)
+
+    # Wire the output of the new group node to the input of
+    # the MaterialOutput node
+    new_mat.node_tree.links.new(
+            texture_node.outputs['Shader'],
+            output_node.inputs['Surface'], 
+    )
+    return new_mat
 
 
 
@@ -264,7 +292,7 @@ def modify_color(current_obj, material_name, mat_list, color):
     
 # modify the color of specific part
 # after preprocessing, by modify part materials
-def modify_part_color(current_obj, part_name, part_verts_idxs, mat_list, material_name, color_name, color):
+def modify_part_color(current_obj, part_name, part_verts_idxs, mat_list, material_name, color_name, color, texture, mat_freq):
     for i, mat in enumerate(current_obj.data.materials):
         split_mat_name = mat.name.split('.')
         if len(split_mat_name) < 2:
@@ -273,22 +301,11 @@ def modify_part_color(current_obj, part_name, part_verts_idxs, mat_list, materia
             assert mat.node_tree.nodes[1].name in ['Diffuse BSDF', 'Transparent BSDF']
             if mat.node_tree.nodes[1].name == 'Transparent BSDF':
                 mat.node_tree.nodes[1].inputs[0].default_value[0:3] = color[0:3]
-            elif split_mat_name[-1] == material_name:
-                group_node = mat.node_tree.nodes['Group']
-                group_node.inputs['Color'].default_value = color
+            elif split_mat_name[-1] == str(texture)+'_'+material_name:
+                modify_mat(mat, color, mat_freq)
             else:
-                bpy.ops.material.new()
-                new_mat = bpy.data.materials['Material']
-                new_mat.name = '.'.join(split_mat_name[:-1])+'.'+material_name
+                new_mat = add_new_mat('.'.join(split_mat_name[:-1]), material_name, color, texture, mat_freq)
                 current_obj.data.materials[i] = new_mat
-                output_node = new_mat.node_tree.nodes['Material Output']
-                group_node = new_mat.node_tree.nodes.new('ShaderNodeGroup')
-                group_node.node_tree = bpy.data.node_groups[material_name]
-                group_node.inputs['Color'].default_value = color
-                new_mat.node_tree.links.new(
-                        group_node.outputs['Shader'],
-                        output_node.inputs['Surface'], 
-                )
 
 # load properties json
 def load_properties_json(properties_json, label_dir):
@@ -306,6 +323,9 @@ def load_properties_json(properties_json, label_dir):
         color_name_to_rgba[name] = rgba
         
     material_mapping = [(v, k) for k, v in properties['materials'].items()]
+    
+    textures = properties['textures']
+    textures = [None if t=='None' else t for t in textures]
     
     size_mapping = list(properties['sizes'].items())
     obj_info = {}
@@ -354,7 +374,7 @@ def load_properties_json(properties_json, label_dir):
                 obj_info['info_part_labels'][obj_name].pop(part_name)
     merge_parts()
     
-    obj_info['info_part'] = json.load(open('data/CGPart_part_models/part_dict.json', 'r'))
+    obj_info['info_part'] = json.load(open('data/save_models_1/part_dict.json', 'r'))
     obj_info['colors'] = json.load(open('data/colors.json', 'r'))['CSS4_COLORS']
     
     # limited_objs = ['sedan']
@@ -363,7 +383,24 @@ def load_properties_json(properties_json, label_dir):
     #     for name in objs:
     #         if name not in limited_objs:
     #             obj_info[k].pop(name)
-    return color_name_to_rgba, size_mapping, material_mapping, obj_info
+    return color_name_to_rgba, size_mapping, material_mapping, textures, obj_info
+
+
+def load_dist(color_dist_pth, mat_dist_pth, shape_dist_pth, shape_color_co_dist_pth):
+    shape_dist, mat_dist, color_dist, shape_color_co_dist = None, None, None, None
+    if color_dist_pth is not None:
+        color_dist = dict(np.load(color_dist_pth))
+    if mat_dist_pth is not None:
+        mat_dist = dict(np.load(mat_dist_pth))
+    if shape_dist_pth is not None:
+        shape_dist = dict(np.load(shape_dist_pth))
+    if shape_color_co_dist_pth is not None:
+        shape_color_co_dist = dict(np.load(shape_color_co_dist_pth))
+        num_shape, num_color = shape_color_co_dist['dist'].shape
+        shape_color_co_dist['shape_idx_map'] = {name:i for i,name in enumerate(shape_color_co_dist['names'][:num_shape])}
+        shape_color_co_dist['colors'] = shape_color_co_dist['names'][-num_color:]
+    return shape_dist, mat_dist, color_dist, shape_color_co_dist
+
         
 def load_materials(material_dir):
     """

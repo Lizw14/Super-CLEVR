@@ -12,6 +12,9 @@ from collections import Counter
 import pdb
 # random.seed(10)
 
+import numpy as np
+import subprocess
+
 """
 Renders random scenes using Blender, each with with a random number of objects;
 each object has a random size, position, color, and shape. Objects will be
@@ -155,11 +158,41 @@ parser.add_argument('--render_tile_size', default=256, type=int,
                  "quality of the rendered image but may affect the speed; CPU-based " +
                  "rendering may achieve better performance using smaller tile sizes " +
                  "while larger tile sizes may be optimal for GPU-based rendering.")
+parser.add_argument('--clevr_scene_path', default=None,
+        help="the path of CLEVR's scene file")
+
+# dist files
+parser.add_argument('--color_dist_pth', default=None,
+        help="the dir to distribution files")
+parser.add_argument('--mat_dist_pth', default=None,
+        help="the dir to distribution files")
+parser.add_argument('--shape_dist_pth', default=None,
+        help="the dir to distribution files")
+parser.add_argument('--shape_color_co_dist_pth', default=None,
+        help="the dir to distribution files")
+parser.add_argument('--is_part', default=1, type=int,
+        help="need part or not")
+parser.add_argument('--load_scene', default=1, type=int,
+        help="when sclevr_scene_path is provided, 0 to only load xyz size, 1 to load the scene")
+
+
+
+argv = utils.extract_args()
+args = parser.parse_args(argv)
+clevr_scene_path = args.clevr_scene_path
+if clevr_scene_path is not None:
+    print('Loading scenes from ', clevr_scene_path)
+    clevr_scene = json.load(open(clevr_scene_path))
+    clevr_scene = clevr_scene['scenes']
+    
 
 def main(args):
-    global color_name_to_rgba, size_mapping, material_mapping, obj_info
+    global color_name_to_rgba, size_mapping, material_mapping, textures_mapping, obj_info
     # Load the property file
-    color_name_to_rgba, size_mapping, material_mapping, obj_info = utils.load_properties_json(args.properties_json, os.path.join(args.shape_dir, 'labels'))
+    color_name_to_rgba, size_mapping, material_mapping, textures_mapping, obj_info = utils.load_properties_json(args.properties_json, os.path.join(args.shape_dir, 'labels'))
+
+    global shape_dist, mat_dist, color_dist, shape_color_co_dist
+    shape_dist, mat_dist, color_dist, shape_color_co_dist = utils.load_dist(args.color_dist_pth, args.mat_dist_pth, args.shape_dist_pth, args.shape_color_co_dist_pth)
 
     num_digits = 6
     prefix = '%s_%s_' % (args.filename_prefix, args.split)
@@ -178,40 +211,89 @@ def main(args):
         os.makedirs(args.output_blend_dir)
     
     all_scene_paths = []
-    for i in range(args.num_images):
-        img_path = img_template % (i + args.start_idx)
-        scene_path = scene_template % (i + args.start_idx)
-        all_scene_paths.append(scene_path)
-        blend_path = None
-        if args.save_blendfiles == 1:
-            blend_path = blend_template % (i + args.start_idx)
-        num_objects = random.randint(args.min_objects, args.max_objects)
-        render_scene(args,
-            num_objects=num_objects,
-            output_index=(i + args.start_idx),
-            output_split=args.split,
-            output_image=img_path,
-            output_scene=scene_path,
-            output_blendfile=blend_path,
-        )
+    # for i in range(args.num_images):
+    
+    # for i in range(21):
+    #     for t in range(12):
+    #         # positive to render normally, else load the scene and only render the mask
+    #         scene_idx = i + args.start_idx if args.clevr_scene_path is not None else -1
+    #         image_idx = clevr_scene[scene_idx]['image_index'] if (scene_idx >= 0 and args.load_scene) else i+args.start_idx
+            
+    #         img_path = img_template % (image_idx)
+            
+    #         scene_path = scene_template % (image_idx)
+    #         all_scene_paths.append(scene_path)
+    #         blend_path = None
+    #         if args.save_blendfiles == 1:
+    #             blend_path = blend_template % (image_idx)
+    #         num_objects = random.randint(args.min_objects, args.max_objects)
+            
+    #         obj_idx = i
+    #         theta = 30*t
+    #         img_path = img_path[:-4]+'_'+str(theta)+'.png'
+    #         render_scene(args,
+    #             num_objects=num_objects,
+    #             output_index=(image_idx),
+    #             output_split=args.split,
+    #             output_image=img_path,
+    #             output_scene=scene_path,
+    #             output_blendfile=blend_path,
+    #             idx=scene_idx,
+    #             obj_idx=obj_idx,
+    #             theta=theta
+    #         )
+    
+    for i in range(8):
+        for t in range(2):
+            # positive to render normally, else load the scene and only render the mask
+            scene_idx = i + args.start_idx if args.clevr_scene_path is not None else -1
+            image_idx = clevr_scene[scene_idx]['image_index'] if (scene_idx >= 0 and args.load_scene) else i+args.start_idx
+            
+            img_path = img_template % (image_idx)
+            
+            scene_path = scene_template % (image_idx)
+            all_scene_paths.append(scene_path)
+            blend_path = None
+            if args.save_blendfiles == 1:
+                blend_path = blend_template % (image_idx)
+            num_objects = random.randint(args.min_objects, args.max_objects)
+            
+            obj_idx = 0
+            theta = 0
+            color_idx = i
+            mat_idx = t
+            img_path = img_path[:-4]+'_'+str(t)+'.png'
+            render_scene(args,
+                num_objects=num_objects,
+                output_index=(image_idx),
+                output_split=args.split,
+                output_image=img_path,
+                output_scene=scene_path,
+                output_blendfile=blend_path,
+                idx=scene_idx,
+                obj_idx=obj_idx,
+                theta=theta,
+                mat_idx=mat_idx,
+                color_idx=color_idx
+            )
 
     # After rendering all images, combine the JSON files for each scene into a
     # single JSON file.
-    all_scenes = []
-    for scene_path in all_scene_paths:
-        with open(scene_path, 'r') as f:
-            all_scenes.append(json.load(f))
-    output = {
-        'info': {
-            'date': args.date,
-            'version': args.version,
-            'split': args.split,
-            'license': args.license,
-        },
-        'scenes': all_scenes
-    }
-    with open(args.output_scene_file, 'w') as f:
-        json.dump(output, f)
+    # all_scenes = []
+    # for scene_path in all_scene_paths:
+    #     with open(scene_path, 'r') as f:
+    #         all_scenes.append(json.load(f))
+    # output = {
+    #     'info': {
+    #         'date': args.date,
+    #         'version': args.version,
+    #         'split': args.split,
+    #         'license': args.license,
+    #     },
+    #     'scenes': all_scenes
+    # }
+    # with open(args.output_scene_file, 'w') as f:
+    #     json.dump(output, f)
 
 
 
@@ -222,10 +304,17 @@ def render_scene(args,
         output_image='render.png',
         output_scene='render_json',
         output_blendfile=None,
+        idx=-1,
+        obj_idx=0,
+        color_idx=0,
+        mat_idx=0,
+        theta=0
     ):
 
     # Load the main blendfile
     bpy.ops.wm.open_mainfile(filepath=args.base_scene_blendfile)
+    bpy.data.objects['Camera'].location = [10,0,6]
+    bpy.data.objects['Camera'].rotation_euler=[0,0,0]
 
     # Load materials
     utils.load_materials(args.material_dir)
@@ -276,10 +365,10 @@ def render_scene(args,
     def rand(L):
         return 2.0 * L * (random.random() - 0.5)
 
-    # Add random jitter to camera position
-    if args.camera_jitter > 0:
-        for i in range(3):
-            bpy.data.objects['Camera'].location[i] += rand(args.camera_jitter)
+    # # Add random jitter to camera position
+    # if args.camera_jitter > 0:
+    #     for i in range(3):
+    #         bpy.data.objects['Camera'].location[i] += rand(args.camera_jitter)
 
     # Figure out the left, up, and behind directions along the plane and record
     # them in the scene structure
@@ -304,225 +393,305 @@ def render_scene(args,
     scene_struct['directions']['above'] = tuple(plane_up)
     scene_struct['directions']['below'] = tuple(-plane_up)
 
-    # Add random jitter to lamp positions
-    if args.key_light_jitter > 0:
-        for i in range(3):
-            bpy.data.objects['Lamp_Key'].location[i] += rand(args.key_light_jitter)
-    if args.back_light_jitter > 0:
-        for i in range(3):
-            bpy.data.objects['Lamp_Back'].location[i] += rand(args.back_light_jitter)
-    if args.fill_light_jitter > 0:
-        for i in range(3):
-            bpy.data.objects['Lamp_Fill'].location[i] += rand(args.fill_light_jitter)
+    # # Add random jitter to lamp positions
+    # if args.key_light_jitter > 0:
+    #     for i in range(3):
+    #         bpy.data.objects['Lamp_Key'].location[i] += rand(args.key_light_jitter)
+    # if args.back_light_jitter > 0:
+    #     for i in range(3):
+    #         bpy.data.objects['Lamp_Back'].location[i] += rand(args.back_light_jitter)
+    # if args.fill_light_jitter > 0:
+    #     for i in range(3):
+    #         bpy.data.objects['Lamp_Fill'].location[i] += rand(args.fill_light_jitter)
 
     # Now make some random objects
-    objects, blender_objects = add_random_objects(scene_struct, num_objects, args, camera)
+    objects, blender_objects = add_object(scene_struct, num_objects, args, camera, obj_idx=obj_idx, theta=theta, color_idx=color_idx, mat_idx=mat_idx, idx=idx)
+
+
+    # def get_mat_pass_index():
+    #     mat_indices = {}
+    #     mm_idx = 1
+    #     for i, obj in enumerate(blender_objects):   
+    #         obj_name = obj.name.split('_')[0]
+    #         mat_indices[obj.name] = (i, -1, mm_idx)
+    #         mm_idx += 1
+    #         obj.pass_index = i+1
+    #         if args.is_part:
+    #             for pi, part_name in enumerate(obj_info['info_part'][obj_name]):
+    #                 mat_indices[obj.name+'.'+part_name] = (i, pi, mm_idx)
+    #                 mm_idx += 1
+                    
+    #         for mi in range(len(obj.data.materials)):
+    #             mat = obj.data.materials[mi]
+    #             if not mat.name.startswith(obj_name): # original materials
+    #                 mat.pass_index = mat_indices[obj.name][2]
+    #             elif args.is_part:
+    #                 part_name = mat.name.split('.')[1]
+    #                 mat.pass_index = mat_indices[obj.name+'.'+part_name][2]
+    #     mat_indices = {v[2]:(v[0], v[1], k) for k,v in mat_indices.items()}
+    #     return mat_indices
+
+    
+    # def build_rendermask_graph(mat_indices):
+    #     # switch on nodes
+    #     bpy.context.scene.use_nodes = True
+    #     tree = bpy.context.scene.node_tree
+    #     links = tree.links
+        
+    #     # clear default nodes
+    #     for n in tree.nodes:
+    #         tree.nodes.remove(n)
+            
+    #     # create input render layer node
+    #     rl = tree.nodes.new('CompositorNodeRLayers')      
+    #     rl.location = 185,285
+
+    #     scene = bpy.context.scene
+    #     nodes = scene.node_tree.nodes
+
+    #     render_layers = nodes['Render Layers']
+
+    #     num_mat = len(mat_indices)
+    #     num_obj = len(blender_objects)
+        
+    #     ofile_node = nodes.new("CompositorNodeOutputFile")
+    #     path = '../output/tmp'
+    #     ofile_node.base_path = path
+    #     ofile_node.file_slots.remove(ofile_node.inputs[0])
+        
+    #     idmask_nodes = [nodes.new("CompositorNodeIDMask") for _ in range(num_mat)]
+    #     for _i, o_node in enumerate(idmask_nodes):    
+    #         o_node.index = _i + 1
+            
+    #     idmask_obj_nodes = [nodes.new("CompositorNodeIDMask") for _ in range(num_obj)]
+    #     for _i, o_node in enumerate(idmask_obj_nodes):    
+    #         o_node.index = _i + 1
+            
+    #     part_colors = {}
+    #     rgb_nodes = [nodes.new("CompositorNodeRGB") for _ in range(num_mat)]
+    #     for _i, rgb_node in enumerate(rgb_nodes):
+    #         obj_idx, mat_idx, mat_name = mat_indices[_i+1]
+    #         r, g, b = 0.05*(obj_idx+1), 0.1*(mat_idx//5 + 1), 0.1*(mat_idx%5 + 1)
+    #         part_colors[mat_name] = (r, g, b)
+    #         rgb_node.outputs[0].default_value[:3] = (r, g, b)
+        
+    #     mix_nodes = [nodes.new("CompositorNodeMixRGB") for _ in range(num_mat)]
+    #     for _i, o_node in enumerate(mix_nodes):    
+    #         o_node.blend_type = "MULTIPLY"
+            
+    #     add_nodes = [nodes.new("CompositorNodeMixRGB") for _ in range(num_mat-1)]
+    #     for _i, o_node in enumerate(add_nodes):    
+    #         o_node.blend_type = "ADD"
+        
+    #     bpy.data.scenes['Scene'].render.layers['RenderLayer'].use_pass_material_index = True
+    #     bpy.data.scenes['Scene'].render.layers['RenderLayer'].use_pass_object_index = True
+
+    #     for mat_idx in range(num_mat):
+    #         scene.node_tree.links.new(
+    #             render_layers.outputs['IndexMA'],
+    #             idmask_nodes[mat_idx].inputs[0]
+    #             )
+    #         scene.node_tree.links.new(
+    #             idmask_nodes[mat_idx].outputs[0],
+    #             mix_nodes[mat_idx].inputs[1]
+    #             )
+    #         scene.node_tree.links.new(
+    #             rgb_nodes[mat_idx].outputs[0],
+    #             mix_nodes[mat_idx].inputs[2]
+    #             )
+    #         # ofile_node.file_slots.new("part_" + mat_indices[mat_idx+1] + '_')
+    #         # scene.node_tree.links.new(
+    #         #     idmask_nodes[mat_idx].outputs[0],
+    #         #     ofile_node.inputs[mat_idx]
+    #         #     )
+            
+    #     # for obj_idx in range(num_obj):
+    #     #     scene.node_tree.links.new(
+    #     #         render_layers.outputs['IndexOB'],
+    #     #         idmask_obj_nodes[obj_idx].inputs[0]
+    #     #         )
+    #     #     ofile_node.file_slots.new("obj_" + str(blender_objects[obj_idx].name) + '_')
+    #     #     scene.node_tree.links.new(
+    #     #         idmask_obj_nodes[obj_idx].outputs[0],
+    #     #         ofile_node.inputs[num_mat+obj_idx]
+    #     #         )
+            
+    #     mat_idx = 0
+    #     scene.node_tree.links.new(
+    #         mix_nodes[mat_idx+1].outputs[0],
+    #         add_nodes[mat_idx].inputs[1]
+    #         )
+    #     scene.node_tree.links.new(
+    #         mix_nodes[mat_idx].outputs[0],
+    #         add_nodes[mat_idx].inputs[2]
+    #         )
+    #     for mat_idx in range(1, num_mat-1):
+    #         scene.node_tree.links.new(
+    #             mix_nodes[mat_idx+1].outputs[0],
+    #             add_nodes[mat_idx].inputs[1]
+    #             )
+    #         scene.node_tree.links.new(
+    #             add_nodes[mat_idx-1].outputs[0],
+    #             add_nodes[mat_idx].inputs[2]
+    #             )
+        
+    #     ofile_node.file_slots.new("mask_all_{}_".format(output_index))
+    #     scene.node_tree.links.new(
+    #         add_nodes[-1].outputs[0],
+    #         ofile_node.inputs[0]
+    #         )
+        
+    #     return part_colors
+            
+    # mat_indices = get_mat_pass_index()
+    # json_pth = '../output/tmp/mat_indices_{}.json'.format(output_index)
+    # json.dump(mat_indices, open(json_pth, 'w'))
+    # part_colors = build_rendermask_graph(mat_indices)
+
+
+
 
     # Render the scene and dump the scene data structure
-    scene_struct['objects'] = objects
-    scene_struct['relationships'] = compute_all_relationships(scene_struct)
+    # scene_struct['objects'] = objects
+    # scene_struct['relationships'] = compute_all_relationships(scene_struct)
     while True:
         try:
             bpy.ops.render.render(write_still=True)
             break
         except Exception as e:
             print(e)
+            
+    
+    #save_as_json
+    # cmd = ['python','./restore_img2json.py', str(output_index)]
+    # res = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    # res.wait()
+    # if res.returncode != 0:
+    #     print("  os.wait:exit status != 0\n")
+    #     result = res.stdout.read()
+    #     print ("after read: {}".format(result))
+    #     raise Exception('error in img2json')
 
-    with open(output_scene, 'w') as f:
-        json.dump(scene_struct, f, indent=2)
+    # obj_mask_box = json.load(open('/tmp/obj_mask_{}.json'.format(output_index)))
+    # _path = '/tmp/obj_mask_{}.json'.format(output_index)
+    # os.system('rm ' + _path)
+    
+    # scene_struct['obj_mask_box'] = obj_mask_box
+    
+
+    # with open(output_scene, 'w') as f:
+    #     # json.dump(scene_struct, f, indent=2)
+    #     json.dump(scene_struct, f)
 
     if output_blendfile is not None:
         bpy.ops.wm.save_as_mainfile(filepath=output_blendfile)
 
-
-
-def add_random_objects(scene_struct, num_objects, args, camera):
-    print('adding', num_objects, 'objects.')
-    # num_objects = 5
+def add_object(scene_struct, num_objects, args, camera, obj_idx=0, theta=0, color_idx=0, mat_idx=0, idx=-1):
     """
     Add random objects to the current blender scene
     """
 
+    num_objects = 1
+    
     positions = []
     objects = []
     blender_objects = []
     obj_pointer = []
-    for i in range(num_objects):
-        # Choose a random size
-        size_name, r = random.choice(size_mapping)
+    
+    print('adding', num_objects, 'objects.')
+    
+    # Choose a random size
+    size_name, r = random.choice(size_mapping)
+    size_name, r = 'large', 6.0
 
-        # Choose random color and shape
-        
-        obj_name, obj_pth = random.choice(list(obj_info['info_pth'].items()))
-        # obj_name, obj_pth = "suv", "car/473dd606c5ef340638805e546aa28d99"
-        color_name, rgba = random.choice(list(color_name_to_rgba.items()))
-        
-        # Try to place the object, ensuring that we don't intersect any existing
-        # objects and that we are more than the desired margin away from all existing
-        # objects along all cardinal directions.
-        num_tries = 0
-        while True:
-            # If we try and fail to place an object too many times, then delete all
-            # the objects in the scene and start over.
-            num_tries += 1
-            if num_tries > args.max_retries:
-                for obj in blender_objects:
-                    utils.delete_object(obj)
-                return add_random_objects(scene_struct, num_objects, args, camera)
-            x = random.uniform(-3, 3)
-            y = random.uniform(-3, 3)
-            # Choose random orientation for the object.
-            theta = 360.0 * random.random()
-            # Check to make sure the new object is further than min_dist from all
-            # other objects, and further than margin along the four cardinal directions
-            dists_good = True
-            margins_good = True
+    # Choose random shape
+    # obj_name, obj_pth = random.choice(list(obj_info['info_pth'].items()))
+    obj_name, obj_pth = "suv", "car/473dd606c5ef340638805e546aa28d99"
+    # obj_name, obj_pth = sorted(obj_info['info_pth'].items(), key=lambda b: b[1])[obj_idx]
             
-            def dist_map(x,y,t):
-                theta = t / 180. * math.pi
-                dx1 = x * math.cos(theta) - y * math.sin(theta)
-                dy1 = x * math.sin(theta) + y * math.cos(theta)
-                dx2 = x * math.cos(theta) + y * math.sin(theta)
-                dy2 = x * math.sin(theta) - y * math.cos(theta)
-                return dx1, dy1, dx2, dy2
-            
-            def ccw(A,B,C):
-                # return (C.y-A.y) * (B.x-A.x) > (B.y-A.y) * (C.x-A.x)
-                return (C[1]-A[1]) * (B[0]-A[0]) > (B[1]-A[1]) * (C[0]-A[0])
 
-            # Return true if line segments AB and CD intersect
-            def intersect(A,B,C,D):
-                return ccw(A,C,D) != ccw(B,C,D) and ccw(A,B,C) != ccw(A,B,D)
-            
-            
-            def check(xx,yy,box_xx,box_yy,rr,tt,x,y,box_x,box_y,r,theta):
-                xx1, yy1, xx2, yy2 = dist_map(box_xx/2*rr, box_yy/2*rr, tt)
-                AA = (xx+xx1, yy+yy1)
-                BB = (xx+xx2, yy+yy2)
-                CC = (xx-xx1, yy-yy1)
-                DD = (xx-xx2, yy-yy2)
-                x1, y1, x2, y2 = dist_map(box_x/2*r, box_y/2*r, theta)
-                A = (x+x1, y+y1)
-                B = (x+x2, y+y2)
-                C = (x-x1, y-y1)
-                D = (x-x2, y-y2)
-                for (p1, p2) in [(AA, BB), (BB, CC), (CC, DD), (DD, AA), (AA, CC), (BB, DD)]:
-                    for (p3, p4) in [(A, B), (B, C), (C, D), (D, A), (A, C), (B, D)]:
-                        if intersect(p1, p2, p3, p4):
-                            return True
-                return False
-                
-                
-            for (objobj, xx, yy, rr, tt) in positions:
-                box_x, box_y, _ = obj_info['info_box'][obj_name]
-                box_xx, box_yy, _ = obj_info['info_box'][objobj]
-                if check(xx,yy,box_xx,box_yy,rr*1.1,tt,x,y,box_x,box_y,r*1.1,theta):
-                    margins_good = False
-                    break
+    # # Actually add the object to the scene
+    # x = random.uniform(-3, 3)
+    # y = random.uniform(-3, 3)
+    # # Choose random orientation for the object.
+    # theta = 360.0 * random.random()
+    x, y = 0, 0
+    theta = theta
+    
+    loc = (x, y, -r*obj_info['info_z'][obj_name])
+    current_obj = utils.add_object(args.model_dir, obj_name, obj_pth, r, loc, theta=theta)
+    obj = bpy.context.object
+    blender_objects.append(obj)
+    positions.append((obj_name, x, y, r, theta))
 
-            if dists_good and margins_good:
-                break
+    # Attach a random color
+    # rgba=(1,0,0,1)
+    # mat_name, mat_name_out = random.choice(material_mapping)
+    mat_name, mat_name_out = sorted(list(material_mapping))[mat_idx]
+    # mat_name, mat_name_out = 'Rubber', 'rubber'
 
+    # color_name, rgba = random.choice(list(color_name_to_rgba.items()))
+    color_name, rgba = sorted(list(color_name_to_rgba.items()))[color_idx]
+    # color_name  = 'gray'
+    # rgba = color_name_to_rgba[color_name]
+    
+    # texture = random.choice(textures_mapping)
+    texture = None
+    mat_freq = {"large":60, "small":30}[size_name]
+    # if texture=='checkered':
+    #     mat_freq = mat_freq / 2
+    utils.modify_color(current_obj, material_name=mat_name, mat_list=obj_info['info_material'][obj_name], 
+                        color=rgba,
+                        texture=texture, mat_freq=mat_freq)
 
-        # Actually add the object to the scene
-        loc = (x, y, -r*obj_info['info_z'][obj_name])
-        current_obj = utils.add_object(args.model_dir, obj_name, obj_pth, r, loc, theta=theta)
-        obj = bpy.context.object
-        blender_objects.append(obj)
-        positions.append((obj_name, x, y, r, theta))
-
-        # Attach a random color
-        # rgba=(1,0,0,1)
-        mat_name, mat_name_out = random.choice(material_mapping)
-        utils.modify_color(current_obj, material_name=mat_name, mat_list=obj_info['info_material'][obj_name], color=rgba)
-        
-
-        # Record data about the object in the scene data structure
-        pixel_coords = utils.get_camera_coords(camera, obj.location)
-        objects.append({
-            'shape': obj_name,
-            'size': size_name,
-            '3d_coords': tuple(obj.location),
-            'rotation': theta,
-            'pixel_coords': pixel_coords,
-            'color': color_name,
-            'material': mat_name_out
-        })
-        
-        obj_pointer.append(current_obj)
-
-
+    # part_pth = '../output/human_study/masks/' + str(obj_idx) + '_' + str(theta) + '.png'
+    part_pth = 'output/tmp.png'
+    object_colors, part_colors = render_shadeless(blender_objects, path=part_pth, is_part=True, obj_info=obj_info)
+    
     # Check that all objects are at least partially visible in the rendered image
-    all_visible, visible_parts = check_visibility(blender_objects, args.min_pixels_per_object, args.min_pixels_per_part, is_part=True, obj_info=obj_info)
+    # all_visible, visible_parts = check_visibility(blender_objects, args.min_pixels_per_object, args.min_pixels_per_part, is_part=True, obj_info=obj_info)
 
-    print('check vis done')
-    if not all_visible:
-        # If any of the objects are fully occluded then start over; delete all
-        # objects from the scene and place them all again.
-        print('Some objects are occluded; replacing objects')
-        for obj in blender_objects:
-            utils.delete_object(obj)
-        return add_random_objects(scene_struct, num_objects, args, camera)
-
-    for i in range(num_objects):
-        # randomize part material
-        
-        current_obj = obj_pointer[i]
-        obj_name = current_obj.name.split('_')[0]
-        color_name = objects[i]['color']
-        part_list = visible_parts[current_obj.name]
-        part_names = random.sample(part_list, min(3, len(part_list)))
-        # part_name = random.choice(obj_info['info_part'][obj_name])
-        part_record = {}
-        for part_name in part_names:
-            while True:
-                part_color_name, part_rgba = random.choice(list(color_name_to_rgba.items()))
-                if part_color_name != color_name:
-                    break
-            part_name = part_name.split('.')[0]
-            if part_name not in obj_info['info_part_labels'][obj_name]:
-                print(part_name, obj_name, '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-                continue
-            part_verts_idxs = obj_info['info_part_labels'][obj_name][part_name]
-            mat_name, mat_name_out = random.choice(material_mapping)
-            utils.modify_part_color(current_obj, part_name, part_verts_idxs, mat_list=obj_info['info_material'][obj_name], 
-                                    material_name=mat_name, color_name=part_color_name, color=part_rgba)
-            part_record[part_name] = {
-                    "color": part_color_name,
-                    "material": mat_name_out,
-                    "size": objects[i]['size']
-                    }
+    # if args.is_part:
+    #     for i in range(num_objects):
+    #         # randomize part material
+            
+    #         current_obj = obj_pointer[i]
+    #         obj_name = current_obj.name.split('_')[0]
+    #         color_name = objects[i]['color']
+    #         size_name = objects[i]['size']
+    #         part_list = visible_parts[current_obj.name]
+    #         part_names = random.sample(part_list, min(3, len(part_list)))
+    #         # part_name = random.choice(obj_info['info_part'][obj_name])
+    #         part_record = {}
+    #         for part_name in part_names:
+    #             while True:
+    #                 part_color_name, part_rgba = random.choice(list(color_name_to_rgba.items()))
+    #                 if part_color_name != color_name:
+    #                     break
+    #             part_name = part_name.split('.')[0]
+    #             # if part_name not in obj_info['info_part_labels'][obj_name]:
+    #             #     print(part_name, obj_name, '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+    #             #     continue
+    #             part_verts_idxs = obj_info['info_part_labels'][obj_name][part_name]
+    #             mat_name, mat_name_out = random.choice(material_mapping)
+    #             texture = random.choice(textures_mapping)
+    #             mat_freq = {"large":60, "small":30}[size_name]
+    #             if texture=='checkered':
+    #                 mat_freq = mat_freq / 2
+    #             utils.modify_part_color(current_obj, part_name, part_verts_idxs, mat_list=obj_info['info_material'][obj_name], 
+    #                                     material_name=mat_name, color_name=part_color_name, color=part_rgba,
+    #                                     texture=texture, mat_freq=mat_freq)
+    #             part_record[part_name] = {
+    #                     "color": part_color_name,
+    #                     "material": mat_name_out,
+    #                     "size": objects[i]['size'],
+    #                     "texture": texture
+    #                     }
                 
-        objects[i]['parts'] = part_record
+    #     objects[i]['parts'] = part_record
 
     return objects, blender_objects
 
-
-def compute_all_relationships(scene_struct, eps=0.2):
-    """
-    Computes relationships between all pairs of objects in the scene.
-    
-    Returns a dictionary mapping string relationship names to lists of lists of
-    integers, where output[rel][i] gives a list of object indices that have the
-    relationship rel with object i. For example if j is in output['left'][i] then
-    object j is left of object i.
-    """
-    all_relationships = {}
-    for name, direction_vec in scene_struct['directions'].items():
-        if name == 'above' or name == 'below': continue
-        all_relationships[name] = []
-        for i, obj1 in enumerate(scene_struct['objects']):
-            coords1 = obj1['3d_coords']
-            related = set()
-            for j, obj2 in enumerate(scene_struct['objects']):
-                if obj1 == obj2: continue
-                coords2 = obj2['3d_coords']
-                diff = [coords2[k] - coords1[k] for k in [0, 1, 2]]
-                dot = sum(diff[k] * direction_vec[k] for k in [0, 1, 2])
-                if dot > eps:
-                    related.add(j)
-            all_relationships[name].append(sorted(list(related)))
-    return all_relationships
 
 
 def check_visibility(blender_objects, min_pixels_per_object, min_pixels_per_part=None, is_part=False, obj_info=None):
@@ -537,7 +706,7 @@ def check_visibility(blender_objects, min_pixels_per_object, min_pixels_per_part
     Returns True if all objects are visible and False otherwise.
     """
     f, path = tempfile.mkstemp(suffix='.png')
-    # path = 'output/tmp.png'
+    path = 'output/tmp.png'
     object_colors, part_colors = render_shadeless(blender_objects, path=path, is_part=is_part, obj_info=obj_info)
     img = bpy.data.images.load(path)
     
@@ -558,7 +727,7 @@ def check_visibility(blender_objects, min_pixels_per_object, min_pixels_per_part
     color_count_obj = Counter()
     for k,v in color_count_part.items():
         color_count_obj[k[0]] += v
-    os.remove(path)
+    # os.remove(path)
     all_visible = True
     visible_parts = {obj.name:[] for obj in blender_objects}
     if len(color_count_obj) != len(blender_objects):
@@ -600,6 +769,9 @@ def render_shadeless(blender_objects, path='flat.png', is_part=False, obj_info=N
     render_args.filepath = path
     render_args.engine = 'BLENDER_RENDER'
     render_args.use_antialiasing = False
+    
+    render_args.resolution_x = 640
+    render_args.resolution_y = args.height
 
     # Move the lights and ground to layer 2 so they don't render
     utils.set_layer(bpy.data.objects['Lamp_Key'], 2)
@@ -611,6 +783,15 @@ def render_shadeless(blender_objects, path='flat.png', is_part=False, obj_info=N
     object_colors = set()
     part_colors = {}
     old_materials = []
+    
+    random.seed(1000)
+    # color_json = json.load(open('data/colors.json', 'r'))
+    # cssr_colors = color_json['CSS4_COLORS']
+    # random.shuffle(cssr_colors)
+    # color_list = color_json['TABLEAU_COLORS'] + cssr_colors
+    
+    color_list = np.load('data/pascal_seg_colormap.npy').tolist()[2:]
+    
     for i, obj in enumerate(blender_objects):
         # need to use iteration to copy by value, otherwise just a pointer is copied
         old_materials.append([])
@@ -619,7 +800,9 @@ def render_shadeless(blender_objects, path='flat.png', is_part=False, obj_info=N
         bpy.ops.material.new()
         mat = bpy.data.materials['Material']
         mat.name = 'Material_%d' % i
-        r,g,b = 0.1 * i, 0, 0
+        # r,g,b = 0.1 * i, 0, 0
+        # r,g,b = random.random(), random.random(), random.random()
+        r, g, b = color_list[0]
         mat.diffuse_color = [r, g, b]
         object_colors.add((r, g, b))
         mat.use_shadeless = True
@@ -635,7 +818,9 @@ def render_shadeless(blender_objects, path='flat.png', is_part=False, obj_info=N
                 new_mat.name =  obj.name + '..' + part_name
                 # pcolor = obj_info['colors'][pi][1]
                 # new_mat.diffuse_color = (r/2.+pcolor[0]/2., g/2.+pcolor[1]/2., b/2.+pcolor[2]/2.)
-                r, g, b = 0.1*i, 0.1*(pi//5 + 1), 0.1*(pi%5 + 1)
+                # r, g, b = 0.3*pi, 0.16*(pi//5 + 1), 1 - 0.16*(pi%5 + 1)
+                # r, g, b = random.random(), random.random(), random.random()
+                r, g, b = color_list[pi+1]
                 new_mat.diffuse_color = (r, g, b)
                 pc = new_mat.diffuse_color
                 part_colors[new_mat.name] = (r, g, b)
@@ -671,162 +856,7 @@ def render_shadeless(blender_objects, path='flat.png', is_part=False, obj_info=N
     render_args.engine = old_engine
     render_args.use_antialiasing = old_use_antialiasing
 
-    # # delete the new created materials
-    # for mat in bpy.data.materials:
-    #     # if mat.name.startswith('Material_'):
-    #     if not mat.users:
-    #         bpy.data.materials.remove(mat)
-
     print('render still done 3')
-    return object_colors, part_colors
-
-def _render_shadeless(blender_objects, path='flat.png', is_part=False, obj_info=None):
-    # compositor masks  
-    def get_mat_pass_index():
-        mat_indices = {}
-        mm_idx = 1
-        for i, obj in enumerate(blender_objects):   
-            obj_name = obj.name.split('_')[0]
-            mat_indices[obj.name] = mm_idx
-            obj.pass_index = i+1
-            for pi, part_name in enumerate(obj_info['info_part'][obj_name]):
-                mat_indices[obj.name+'.'+part_name] = mm_idx
-                # mat_indices[mm_idx] = obj.name+'.'+part_name
-                mm_idx += 1
-                    
-            for mi in range(len(obj.data.materials)):
-                mat = obj.data.materials[mi]
-                if not mat.name.startswith(obj_name): # original materials
-                    mat.pass_index = mat_indices[obj.name]
-                else:
-                    part_name = mat.name.split('.')[1]
-                    mat.pass_index = mat_indices[obj.name+'.'+part_name]
-        mat_indices = {v:k for k,v in mat_indices.items()}
-        return mat_indices
-
-    
-    def build_rendermask_graph(mat_indices):
-        # switch on nodes
-        bpy.context.scene.use_nodes = True
-        tree = bpy.context.scene.node_tree
-        links = tree.links
-        
-        # clear default nodes
-        for n in tree.nodes:
-            tree.nodes.remove(n)
-            
-        # create input render layer node
-        rl = tree.nodes.new('CompositorNodeRLayers')      
-        rl.location = 185,285
-
-        scene = bpy.context.scene
-        nodes = scene.node_tree.nodes
-
-        render_layers = nodes['Render Layers']
-
-        num_mat = len(mat_indices)
-        num_obj = len(blender_objects)
-        
-        ofile_node = nodes.new("CompositorNodeOutputFile")
-        ofile_node.base_path = path
-        ofile_node.file_slots.remove(ofile_node.inputs[0])
-        
-        idmask_nodes = [nodes.new("CompositorNodeIDMask") for _ in range(num_mat)]
-        for _i, o_node in enumerate(idmask_nodes):    
-            o_node.index = _i + 1
-            
-        idmask_obj_nodes = [nodes.new("CompositorNodeIDMask") for _ in range(num_obj)]
-        for _i, o_node in enumerate(idmask_obj_nodes):    
-            o_node.index = _i + 1
-            
-        part_colors = {}
-        object_colors = set()
-        for obj in blender_objects:
-            while True:
-                r, g, b = [random.random() for _ in range(3)]
-                if (r, g, b) not in object_colors: break
-            object_colors.add((r, g, b))
-        object_colors = list(object_colors)
-        object_colors = {obj.name:object_colors[i] for i,obj in enumerate(blender_objects)}
-        
-        # rgb_nodes = [nodes.new("CompositorNodeRGB") for _ in range(num_mat)]
-        # for _i, rgb_node in enumerate(rgb_nodes):
-        #     pcolor = obj_info['colors'][_i][1]
-        #     r, g, b = object_colors[mat_indices[_i+1].split('.')[0]]
-        #     rgb = (r/2.+pcolor[0]/2., g/2.+pcolor[1]/2., b/2.+pcolor[2]/2.)
-        #     part_colors[mat_indices[_i+1]] = rgb
-        #     rgb_node.outputs[0].default_value[:3] = rgb
-            
-        # mix_nodes = [nodes.new("CompositorNodeMixRGB") for _ in range(num_mat)]
-        # for _i, o_node in enumerate(mix_nodes):    
-        #     o_node.blend_type = "MULTIPLY"
-            
-        # add_nodes = [nodes.new("CompositorNodeMixRGB") for _ in range(num_mat-1)]
-        # for _i, o_node in enumerate(add_nodes):    
-        #     o_node.blend_type = "ADD"
-        
-        bpy.data.scenes['Scene'].render.layers['RenderLayer'].use_pass_material_index = True
-        bpy.data.scenes['Scene'].render.layers['RenderLayer'].use_pass_object_index = True
-
-        for mat_idx in range(num_mat):
-            scene.node_tree.links.new(
-                render_layers.outputs['IndexMA'],
-                idmask_nodes[mat_idx].inputs[0]
-                )
-            # scene.node_tree.links.new(
-            #     idmask_nodes[mat_idx].outputs[0],
-            #     mix_nodes[mat_idx].inputs[1]
-            #     )
-            # scene.node_tree.links.new(
-            #     rgb_nodes[mat_idx].outputs[0],
-            #     mix_nodes[mat_idx].inputs[2]
-            #     )
-            ofile_node.file_slots.new("part_" + mat_indices[mat_idx+1] + '_')
-            scene.node_tree.links.new(
-                idmask_nodes[mat_idx].outputs[0],
-                ofile_node.inputs[mat_idx]
-                )
-            
-        for obj_idx in range(num_obj):
-            scene.node_tree.links.new(
-                render_layers.outputs['IndexOB'],
-                idmask_obj_nodes[obj_idx].inputs[0]
-                )
-            ofile_node.file_slots.new("obj_" + str(blender_objects[obj_idx].name) + '_')
-            scene.node_tree.links.new(
-                idmask_obj_nodes[obj_idx].outputs[0],
-                ofile_node.inputs[num_mat+obj_idx]
-                )
-            
-        # mat_idx = 0
-        # scene.node_tree.links.new(
-        #     mix_nodes[mat_idx+1].outputs[0],
-        #     add_nodes[mat_idx].inputs[1]
-        #     )
-        # scene.node_tree.links.new(
-        #     mix_nodes[mat_idx].outputs[0],
-        #     add_nodes[mat_idx].inputs[2]
-        #     )
-        # for mat_idx in range(1, num_mat-1):
-        #     scene.node_tree.links.new(
-        #         mix_nodes[mat_idx+1].outputs[0],
-        #         add_nodes[mat_idx].inputs[1]
-        #         )
-        #     scene.node_tree.links.new(
-        #         add_nodes[mat_idx-1].outputs[0],
-        #         add_nodes[mat_idx].inputs[2]
-        #         )
-            
-        # scene.node_tree.links.new(
-        #     add_nodes[-1].outputs[0],
-        #     ofile_node.inputs['Image']
-        #     )
-        
-        return object_colors, part_colors
-            
-    mat_indices = get_mat_pass_index()
-    object_colors, part_colors = build_rendermask_graph(mat_indices)
-    
     return object_colors, part_colors
                             
 

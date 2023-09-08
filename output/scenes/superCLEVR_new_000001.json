@@ -1,0 +1,614 @@
+{
+  "directions": {
+    "right": [
+      0.6563112735748291,
+      0.7544902563095093,
+      -0.0
+    ],
+    "behind": [
+      -0.754490315914154,
+      0.6563112735748291,
+      0.0
+    ],
+    "front": [
+      0.754490315914154,
+      -0.6563112735748291,
+      -0.0
+    ],
+    "below": [
+      -0.0,
+      -0.0,
+      -1.0
+    ],
+    "left": [
+      -0.6563112735748291,
+      -0.7544902563095093,
+      0.0
+    ],
+    "above": [
+      0.0,
+      0.0,
+      1.0
+    ]
+  },
+  "objects": [
+    {
+      "rotation": 237.21269530637437,
+      "size": "small",
+      "pixel_coords": [
+        [
+          389,
+          235,
+          10.638714790344238
+        ],
+        [
+          640,
+          480
+        ]
+      ],
+      "color": "green",
+      "3d_coords": [
+        1.144081711769104,
+        0.36366188526153564,
+        0.3934241235256195
+      ],
+      "material": "metal",
+      "shape": "cruiser",
+      "parts": {
+        "headlight_center": {
+          "size": "small",
+          "color": "blue",
+          "material": "rubber"
+        },
+        "mirror_left": {
+          "size": "small",
+          "color": "purple",
+          "material": "rubber"
+        },
+        "wheel_back": {
+          "size": "small",
+          "color": "blue",
+          "material": "rubber"
+        }
+      }
+    },
+    {
+      "rotation": 323.49257168235505,
+      "size": "small",
+      "pixel_coords": [
+        [
+          112,
+          266,
+          10.255820274353027
+        ],
+        [
+          640,
+          480
+        ]
+      ],
+      "color": "yellow",
+      "3d_coords": [
+        -1.2772244215011597,
+        -2.987457752227783,
+        0.1742490828037262
+      ],
+      "material": "metal",
+      "shape": "wagon",
+      "parts": {
+        "back_right_wheel": {
+          "size": "small",
+          "color": "green",
+          "material": "rubber"
+        },
+        "roof": {
+          "size": "small",
+          "color": "blue",
+          "material": "rubber"
+        },
+        "front_right_wheel": {
+          "size": "small",
+          "color": "red",
+          "material": "rubber"
+        }
+      }
+    },
+    {
+      "rotation": 307.5377663488972,
+      "size": "small",
+      "pixel_coords": [
+        [
+          150,
+          239,
+          11.099190711975098
+        ],
+        [
+          640,
+          480
+        ]
+      ],
+      "color": "blue",
+      "3d_coords": [
+        -1.7042642831802368,
+        -2.0921363830566406,
+        0.12102306634187698
+      ],
+      "material": "metal",
+      "shape": "school",
+      "parts": {
+        "roof": {
+          "size": "small",
+          "color": "gray",
+          "material": "rubber"
+        },
+        "door_front_right": {
+          "size": "small",
+          "color": "red",
+          "material": "rubber"
+        }
+      }
+    },
+    {
+      "rotation": 187.78793961381027,
+      "size": "large",
+      "pixel_coords": [
+        [
+          299,
+          181,
+          12.419620513916016
+        ],
+        [
+          640,
+          480
+        ]
+      ],
+      "color": "red",
+      "3d_coords": [
+        -1.3042083978652954,
+        0.7247615456581116,
+        0.4126991629600525
+      ],
+      "material": "metal",
+      "shape": "truck",
+      "parts": {
+        "left_head_light": {
+          "size": "large",
+          "color": "green",
+          "material": "rubber"
+        },
+        "right_head_light": {
+          "size": "large",
+          "color": "cyan",
+          "material": "metal"
+        },
+        "front_left_door": {
+          "size": "large",
+          "color": "yellow",
+          "material": "metal"
+        }
+      }
+    },
+    {
+      "rotation": 340.5851973040131,
+      "size": "large",
+      "pixel_coords": [
+        [
+          549,
+          232,
+          11.06446647644043
+        ],
+        [
+          640,
+          480
+        ]
+      ],
+      "color": "brown",
+      "3d_coords": [
+        2.625688076019287,
+        2.508885145187378,
+        0.24123048782348633
+      ],
+      "material": "metal",
+      "shape": "airliner",
+      "parts": {
+        "wing_left": {
+          "size": "large",
+          "color": "purple",
+          "material": "metal"
+        },
+        "tailplane_right": {
+          "size": "large",
+          "color": "red",
+          "material": "rubber"
+        },
+        "door_right_s": {
+          "size": "large",
+          "color": "yellow",
+          "material": "rubber"
+        }
+      }
+    },
+    {
+      "rotation": 183.35974089684734,
+      "size": "small",
+      "pixel_coords": [
+        [
+          397,
+          182,
+          12.922592163085938
+        ],
+        [
+          640,
+          480
+        ]
+      ],
+      "color": "blue",
+      "3d_coords": [
+        -0.40148183703422546,
+        2.349438190460205,
+        0.21224528551101685
+      ],
+      "material": "rubber",
+      "shape": "truck",
+      "parts": {
+        "hood": {
+          "size": "small",
+          "color": "red",
+          "material": "rubber"
+        },
+        "front_bumper": {
+          "size": "small",
+          "color": "brown",
+          "material": "metal"
+        },
+        "front_left_wheel": {
+          "size": "small",
+          "color": "purple",
+          "material": "metal"
+        }
+      }
+    },
+    {
+      "rotation": 152.9299157668999,
+      "size": "large",
+      "pixel_coords": [
+        [
+          171,
+          266,
+          9.09036636352539
+        ],
+        [
+          640,
+          480
+        ]
+      ],
+      "color": "blue",
+      "3d_coords": [
+        0.22477227449417114,
+        -2.8759520053863525,
+        0.7515131235122681
+      ],
+      "material": "metal",
+      "shape": "scooter",
+      "parts": {
+        "seat": {
+          "size": "large",
+          "color": "yellow",
+          "material": "metal"
+        },
+        "mirror_right": {
+          "size": "large",
+          "color": "gray",
+          "material": "metal"
+        },
+        "fender_back": {
+          "size": "large",
+          "color": "green",
+          "material": "metal"
+        }
+      }
+    },
+    {
+      "rotation": 200.32654630137841,
+      "size": "large",
+      "pixel_coords": [
+        [
+          359,
+          350,
+          8.019946098327637
+        ],
+        [
+          640,
+          480
+        ]
+      ],
+      "color": "yellow",
+      "3d_coords": [
+        2.863060474395752,
+        -2.094417095184326,
+        0.43855684995651245
+      ],
+      "material": "metal",
+      "shape": "suv",
+      "parts": {
+        "right_head_light": {
+          "size": "large",
+          "color": "cyan",
+          "material": "metal"
+        },
+        "left_mirror": {
+          "size": "large",
+          "color": "brown",
+          "material": "rubber"
+        },
+        "front_left_wheel": {
+          "size": "large",
+          "color": "red",
+          "material": "metal"
+        }
+      }
+    },
+    {
+      "rotation": 357.13320760179613,
+      "size": "large",
+      "pixel_coords": [
+        [
+          305,
+          124,
+          14.126635551452637
+        ],
+        [
+          640,
+          480
+        ]
+      ],
+      "color": "cyan",
+      "3d_coords": [
+        -2.7986600399017334,
+        2.226162910461426,
+        0.7649913430213928
+      ],
+      "material": "metal",
+      "shape": "cruiser",
+      "parts": {
+        "exhaust_right_s": {
+          "size": "large",
+          "color": "purple",
+          "material": "rubber"
+        },
+        "gas_tank": {
+          "size": "large",
+          "color": "green",
+          "material": "rubber"
+        },
+        "fender_front": {
+          "size": "large",
+          "color": "red",
+          "material": "rubber"
+        }
+      }
+    }
+  ],
+  "relationships": {
+    "right": [
+      [
+        4,
+        5
+      ],
+      [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      [
+        0,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      [
+        0,
+        4,
+        5,
+        7
+      ],
+      [],
+      [
+        4
+      ],
+      [
+        0,
+        3,
+        4,
+        5,
+        7,
+        8
+      ],
+      [
+        0,
+        4,
+        5
+      ],
+      [
+        0,
+        4,
+        5,
+        7
+      ]
+    ],
+    "behind": [
+      [
+        2,
+        3,
+        4,
+        5,
+        8
+      ],
+      [
+        0,
+        2,
+        3,
+        4,
+        5,
+        8
+      ],
+      [
+        3,
+        5,
+        8
+      ],
+      [
+        5,
+        8
+      ],
+      [
+        2,
+        3,
+        5,
+        8
+      ],
+      [
+        8
+      ],
+      [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        8
+      ],
+      [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8
+      ],
+      []
+    ],
+    "left": [
+      [
+        1,
+        2,
+        3,
+        6,
+        7,
+        8
+      ],
+      [],
+      [
+        1
+      ],
+      [
+        1,
+        2,
+        6
+      ],
+      [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6,
+        7,
+        8
+      ],
+      [
+        0,
+        1,
+        2,
+        3,
+        6,
+        7,
+        8
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        2,
+        3,
+        6,
+        8
+      ],
+      [
+        1,
+        2,
+        6
+      ]
+    ],
+    "front": [
+      [
+        1,
+        6,
+        7
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        0,
+        1,
+        4,
+        6,
+        7
+      ],
+      [
+        0,
+        1,
+        2,
+        4,
+        6,
+        7
+      ],
+      [
+        0,
+        1,
+        6,
+        7
+      ],
+      [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7
+      ],
+      [
+        7
+      ],
+      [],
+      [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    ]
+  },
+  "image_filename": "superCLEVR_new_000001.png",
+  "image_index": 1,
+  "split": "new"
+}

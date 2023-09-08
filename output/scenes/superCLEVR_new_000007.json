@@ -1,0 +1,319 @@
+{
+  "directions": {
+    "right": [
+      0.6563112735748291,
+      0.7544902563095093,
+      -0.0
+    ],
+    "behind": [
+      -0.754490315914154,
+      0.6563112735748291,
+      0.0
+    ],
+    "front": [
+      0.754490315914154,
+      -0.6563112735748291,
+      -0.0
+    ],
+    "below": [
+      -0.0,
+      -0.0,
+      -1.0
+    ],
+    "left": [
+      -0.6563112735748291,
+      -0.7544902563095093,
+      0.0
+    ],
+    "above": [
+      0.0,
+      0.0,
+      1.0
+    ]
+  },
+  "objects": [
+    {
+      "rotation": 239.7108024999427,
+      "size": "small",
+      "pixel_coords": [
+        [
+          469,
+          251,
+          9.491471290588379
+        ],
+        [
+          640,
+          480
+        ]
+      ],
+      "color": "gray",
+      "3d_coords": [
+        2.2223236560821533,
+        0.7586015462875366,
+        0.47284379601478577
+      ],
+      "material": "rubber",
+      "shape": "utility",
+      "parts": {
+        "fork": {
+          "size": "small",
+          "color": "green",
+          "material": "metal"
+        },
+        "crank_arm_left": {
+          "size": "small",
+          "color": "blue",
+          "material": "rubber"
+        },
+        "pedal_left": {
+          "size": "small",
+          "color": "green",
+          "material": "metal"
+        }
+      }
+    },
+    {
+      "rotation": 233.01705063434363,
+      "size": "large",
+      "pixel_coords": [
+        [
+          432,
+          152,
+          12.028572082519531
+        ],
+        [
+          640,
+          480
+        ]
+      ],
+      "color": "yellow",
+      "3d_coords": [
+        -0.14304138720035553,
+        2.6346869468688965,
+        0.7515131235122681
+      ],
+      "material": "metal",
+      "shape": "scooter",
+      "parts": {
+        "headlight_center": {
+          "size": "large",
+          "color": "gray",
+          "material": "rubber"
+        },
+        "handle_left": {
+          "size": "large",
+          "color": "red",
+          "material": "rubber"
+        },
+        "wheel_front": {
+          "size": "large",
+          "color": "brown",
+          "material": "metal"
+        }
+      }
+    },
+    {
+      "rotation": 152.23644314744746,
+      "size": "large",
+      "pixel_coords": [
+        [
+          250,
+          162,
+          12.720118522644043
+        ],
+        [
+          640,
+          480
+        ]
+      ],
+      "color": "red",
+      "3d_coords": [
+        -2.6339635848999023,
+        0.5604326725006104,
+        0.33881765604019165
+      ],
+      "material": "metal",
+      "shape": "wagon",
+      "parts": {
+        "back_left_wheel": {
+          "size": "large",
+          "color": "gray",
+          "material": "metal"
+        },
+        "left_mirror": {
+          "size": "large",
+          "color": "gray",
+          "material": "metal"
+        },
+        "front_left_wheel": {
+          "size": "large",
+          "color": "green",
+          "material": "metal"
+        }
+      }
+    },
+    {
+      "rotation": 195.87885005682534,
+      "size": "small",
+      "pixel_coords": [
+        [
+          216,
+          312,
+          8.776185035705566
+        ],
+        [
+          640,
+          480
+        ]
+      ],
+      "color": "yellow",
+      "3d_coords": [
+        0.8382942080497742,
+        -2.4081547260284424,
+        0.13754527270793915
+      ],
+      "material": "metal",
+      "shape": "regular",
+      "parts": {
+        "roof": {
+          "size": "small",
+          "color": "green",
+          "material": "metal"
+        },
+        "wheel_front_left": {
+          "size": "small",
+          "color": "brown",
+          "material": "metal"
+        },
+        "bumper_front": {
+          "size": "small",
+          "color": "brown",
+          "material": "metal"
+        }
+      }
+    },
+    {
+      "rotation": 183.8590565832663,
+      "size": "large",
+      "pixel_coords": [
+        [
+          423,
+          296,
+          8.132349014282227
+        ],
+        [
+          640,
+          480
+        ]
+      ],
+      "color": "blue",
+      "3d_coords": [
+        2.792271137237549,
+        -0.7935537099838257,
+        0.6627705097198486
+      ],
+      "material": "rubber",
+      "shape": "tandem",
+      "parts": {
+        "fork": {
+          "size": "large",
+          "color": "green",
+          "material": "rubber"
+        },
+        "fender_back": {
+          "size": "large",
+          "color": "brown",
+          "material": "rubber"
+        },
+        "rearlight": {
+          "size": "large",
+          "color": "brown",
+          "material": "rubber"
+        }
+      }
+    }
+  ],
+  "relationships": {
+    "right": [
+      [],
+      [],
+      [
+        0,
+        1,
+        4
+      ],
+      [
+        0,
+        1,
+        4
+      ],
+      [
+        0,
+        1
+      ]
+    ],
+    "behind": [
+      [
+        1,
+        2
+      ],
+      [
+        2
+      ],
+      [],
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        0,
+        1,
+        2,
+        3
+      ]
+    ],
+    "left": [
+      [
+        2,
+        3,
+        4
+      ],
+      [
+        2,
+        3,
+        4
+      ],
+      [],
+      [],
+      [
+        2,
+        3
+      ]
+    ],
+    "front": [
+      [
+        3,
+        4
+      ],
+      [
+        0,
+        3,
+        4
+      ],
+      [
+        0,
+        1,
+        3,
+        4
+      ],
+      [
+        4
+      ],
+      []
+    ]
+  },
+  "image_filename": "superCLEVR_new_000007.png",
+  "image_index": 7,
+  "split": "new"
+}
