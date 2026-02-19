@@ -6,6 +6,9 @@
 [Video](https://www.youtube.com/watch?v=DWRp_70ypiA)
 <!-- (https://www.cs.jhu.edu/~zhuowan/zhuowan/SuperCLEVR/obj_part_list/all_objects.html) -->
 
+
+[![Dataset on HF](https://huggingface.co/datasets/huggingface/badges/resolve/main/dataset-on-hf-md-dark.svg)](https://huggingface.co/datasets/RyanWW/Super-CLEVR)
+
 ------------
 
 This is the homepage for the [CVPR 2023 highlight (top 2.5%)] paper: 
@@ -29,13 +32,13 @@ Here [[link]](https://www.cs.jhu.edu/~zhuowan/zhuowan/SuperCLEVR/obj_part_list/a
 
 The first 20k images and paired are used for training, the next 5k for validation and the last 5k for testing.
 
-| Data                     |Download Link|
-|--------------------------|---|
-| images                   |[images.zip](https://www.cs.jhu.edu/~zhuowan/zhuowan/SuperCLEVR/to_be_released/images.zip)|
-| scenes                   |[superCLEVR_scenes.json](https://www.cs.jhu.edu/~zhuowan/zhuowan/SuperCLEVR/to_be_released/superCLEVR_scenes.json)|
-| questions                |[superCLEVR_questions_30k.json](https://www.cs.jhu.edu/~zhuowan/zhuowan/SuperCLEVR/to_be_released/superCLEVR_questions_30k.json)|
-| questions (- redundancy) |[superCLEVR_questions_30k_NoRedundant.json](https://www.cs.jhu.edu/~zhuowan/zhuowan/SuperCLEVR/to_be_released/superCLEVR_questions_30k_NoRedundant.json)|
-| questions (+ redundancy)  |[superCLEVR_questions_30k_AllRedundant.json](https://www.cs.jhu.edu/~zhuowan/zhuowan/SuperCLEVR/to_be_released/superCLEVR_questions_30k_AllRedundant.json)|
+| Data | Download |
+|------|----------|
+| images | [images.zip](https://huggingface.co/datasets/RyanWW/Super-CLEVR/resolve/main/images.zip?download=true) |
+| scenes | [superCLEVR_scenes.json](https://huggingface.co/datasets/RyanWW/Super-CLEVR/resolve/main/superCLEVR_scenes.json?download=true) |
+| questions | [superCLEVR_questions_30k.json](https://huggingface.co/datasets/RyanWW/Super-CLEVR/resolve/main/superCLEVR_questions_30k.json?download=true) |
+| questions (- redundancy) | [superCLEVR_questions_30k_NoRedundant.json](https://huggingface.co/datasets/RyanWW/Super-CLEVR/resolve/main/superCLEVR_questions_30k_NoRedundant.json?download=true) |
+| questions (+ redundancy) | [superCLEVR_questions_30k_AllRedundant.json](https://huggingface.co/datasets/RyanWW/Super-CLEVR/resolve/main/superCLEVR_questions_30k_AllRedundant.json?download=true) |
 
 
 --------------
