@@ -4,7 +4,7 @@
 [Slides](https://www.cs.jhu.edu/~zhuowan/zhuowan/SuperCLEVR/documents/Super-CLEVR.pdf)
 [Poster](https://www.cs.jhu.edu/~zhuowan/zhuowan/SuperCLEVR/documents/poster.pdf)
 [Video](https://www.youtube.com/watch?v=DWRp_70ypiA)
-[Huggingface](https://huggingface.co/datasets/RyanWW/Super-CLEVR)
+[Dataset](https://huggingface.co/datasets/RyanWW/Super-CLEVR)
 <!-- (https://www.cs.jhu.edu/~zhuowan/zhuowan/SuperCLEVR/obj_part_list/all_objects.html) -->
 
 ------------
